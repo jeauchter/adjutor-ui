@@ -1,6 +1,6 @@
 {
-  "name": "material-cra-ts",
-  "version": "5.0.0",
+  "name": "adjutor-ui",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "latest",
