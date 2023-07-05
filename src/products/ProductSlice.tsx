@@ -4,7 +4,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export interface Classes {
     id: number,
     name: string,
-    DepartmentID: number
+    DepartmentID: number,
+    department: Department
+}
+
+interface Department {
+    id:number,
+    name:string
 }
 
 type ClassesReponse = Classes[]
@@ -16,14 +22,7 @@ export const classesAPI = createApi({
   tagTypes: ['Classes'],
   endpoints: (build) => ({
     getClasses: build.query<ClassesReponse, void>({
-        query: () => '',
-        providesTags: (result) =>
-          result
-            ? [
-                ...result.map(({ id }) => ({ type: 'Classes' as const, id })),
-                { type: 'Classes', id: 'LIST' },
-              ]
-            : [{ type: 'Classes', id: 'LIST' }],
+        query: () => ''
       })
   }),
 })

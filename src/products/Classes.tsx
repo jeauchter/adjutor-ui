@@ -23,7 +23,7 @@ export default function Orders() {
     if (data) {
         return (
             <React.Fragment>
-                <Title>Recent Orders</Title>
+                <Title>Recent Classes</Title>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
