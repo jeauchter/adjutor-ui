@@ -1,10 +1,17 @@
-import { Box, Container, Toolbar, Typography } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import Orders from "../dashboard/Orders";
 
 
 export default function Products(props: any) {
     return (
-        <Box />
+        <Grid container spacing={3}>
+          {/* Recent Orders */}
+          <Grid item xs={12}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+              <Orders />
+            </Paper>
+          </Grid>
+        </Grid>
     );
 }
