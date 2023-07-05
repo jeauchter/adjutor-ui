@@ -19,6 +19,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './dashboard/listItems';
 import Chart from './dashboard/Chart';
+import Dashboard from './dashboard/Dashboard';
 import Deposits from './dashboard/Deposits';
 import Orders from './dashboard/Orders';
 import theme from './theme';
@@ -89,7 +90,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 // TODO remove, this demo shouldn't need to reset the theme.
 // const defaultTheme = createTheme();
 
-export default function Dashboard() {
+export default function App() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
