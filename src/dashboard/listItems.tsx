@@ -8,6 +8,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ListIcon from '@mui/icons-material/List';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Place } from '@mui/icons-material';
+import { useEffect } from 'react';
 
 export const mainListItems = (
   <React.Fragment>
@@ -38,28 +40,74 @@ export const mainListItems = (
   </React.Fragment>
 );
 
-export const secondaryListItems = (
-  <React.Fragment>
+function createData(
+  id: number,
+  title: string,
+  href: string,
+) {
+  return {id, title, href };
+}
+
+const defaultRows = [
+  createData(
+    0,
+    "Current Month",
+    ""
+  ),
+  createData(
+    1,
+    "Last Quarter",
+    ""
+  ),
+  createData(
+    2,
+    "Year-end sale",
+    ""
+  ),
+];
+
+const productRows = [
+  createData(
+    0,
+    "Class",
+    ""
+  ),
+  createData(
+    1,
+    "Department",
+    ""
+  ),
+  createData(
+    2,
+    "Variants",
+    ""
+  ),
+];
+
+
+
+export  function SecondaryListItems( ): React.JSX.Element  {
+
+  var rows = defaultRows
+
+  if(location.pathname === "/products"){
+    rows = productRows
+  }
+
+
+
+ 
+  return (<React.Fragment>
     <ListSubheader component="div" inset>
-      Saved reports
+      Product Helpers
     </ListSubheader>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItemButton>
-  </React.Fragment>
-);
+    {rows.map((row) => (
+       <ListItemButton href={row.href} key={row.id}>
+       <ListItemIcon>
+         <AssignmentIcon />
+       </ListItemIcon>
+       <ListItemText primary={row.title} />
+     </ListItemButton>
+    ))}
+  </React.Fragment>)
+};
