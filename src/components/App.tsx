@@ -18,6 +18,7 @@ import { mainListItems, secondaryListItems } from '../dashboard/listItems';
 import Dashboard from '../dashboard/Dashboard';
 import theme from '../theme';
 import Main from './Main';
+import { Container } from '@mui/material';
 
 function Copyright(props: any) {
   return (
@@ -92,7 +93,6 @@ export default function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
@@ -149,8 +149,11 @@ export default function App() {
             {secondaryListItems}
           </List>
         </Drawer>
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Toolbar/>
         <Main />
+        <Copyright/>
+        </Container>
       </Box>
-    </ThemeProvider>
   );
 }
