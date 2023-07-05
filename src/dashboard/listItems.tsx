@@ -11,25 +11,25 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton>
+    <ListItemButton href="/">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton href="/orders">
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Orders" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton href="/products">
       <ListItemIcon>
         <ListIcon />
       </ListItemIcon>
       <ListItemText primary="Products" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton href="/inventory">
       <ListItemIcon>
         <InventoryIcon />
       </ListItemIcon>
