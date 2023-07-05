@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -13,10 +13,13 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from '../dashboard/listItems';
+import { SecondaryListItems, mainListItems } from '../dashboard/listItems';
 import Main from './Main';
 import { Container } from '@mui/material';
 import Copyright from './Copyright';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 
 
 
@@ -74,10 +77,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 // const defaultTheme = createTheme();
 
 export default function App() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  var locationPath = location.pathname
+
+
+  useEffect(() => {
+    console.log('Location changed', location.pathname);
+    locationPath = location.pathname
+  }, [locationPath]);
 
   return (
       <Box sx={{ display: 'flex' }}>
@@ -133,7 +144,7 @@ export default function App() {
           <List component="nav">
             {mainListItems}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            <SecondaryListItems  />
           </List>
         </Drawer>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
