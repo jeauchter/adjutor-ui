@@ -1,6 +1,6 @@
 import { Grid, Paper } from "@mui/material";
 import React from "react";
-import Orders from "../dashboard/Orders";
+import Classes from "./Classes";
 
 
 export default function Products(props: any) {
@@ -9,7 +9,7 @@ export default function Products(props: any) {
           {/* Recent Orders */}
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-              <Orders />
+              <Classes />
             </Paper>
           </Grid>
         </Grid>
