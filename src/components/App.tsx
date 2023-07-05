@@ -82,13 +82,6 @@ export default function App() {
     setOpen(!open);
   };
 
-  var locationPath = location.pathname
-
-
-  useEffect(() => {
-    console.log('Location changed', location.pathname);
-    locationPath = location.pathname
-  }, [locationPath]);
 
   return (
       <Box sx={{ display: 'flex' }}>
