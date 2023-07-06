@@ -8,8 +8,9 @@ import TableRow, { TableRowTypeMap } from '@mui/material/TableRow';
 import Title from '../components/Title';
 import { useGetClassesQuery } from '../app/apiSlice';
 import CircularProgress from '@mui/material/CircularProgress';
-import {DateTime} from '../components/Date';
+import { DateTime } from '../components/Date';
 import { styled } from '@mui/material/styles';
+import { Card, Grid, Icon, Paper, Typography } from '@mui/material';
 
 
 
@@ -19,24 +20,28 @@ function preventDefault(event: React.MouseEvent) {
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+        backgroundColor: theme.palette.action.hover,
     },
     // hide last border
     '&:last-child td, &:last-child th': {
-      border: 0,
+        border: 0,
     },
-  })) as typeof TableRow ;
+})) as typeof TableRow;
 
-export const ClassList: React.FunctionComponent = () => {
+type ClassList = {
+    tableName?: string
+}
+
+export const ClassList: React.FunctionComponent<ClassList> = ({ tableName = "Recently Added Classes" }) => {
     const { data, isLoading } = useGetClassesQuery()
-    
+
     if (isLoading) {
         return <CircularProgress color="secondary" />
     }
     if (data) {
         return (
             <React.Fragment>
-                <Title>Recently Added Classes</Title>
+                <Title>{tableName}</Title>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
@@ -65,3 +70,50 @@ export const ClassList: React.FunctionComponent = () => {
     return null
 }
 
+export const AddClass: React.FunctionComponent = () => {
+    return (
+
+        <Card
+            sx={{
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                height: 240,
+            }}
+        >
+            <Title>Recent Deposits</Title>
+            <Typography component="p" variant="h4">
+                $3,024.00
+            </Typography>
+            <Typography color="primary" sx={{ flex: 1 }}>
+                on 15 March, 2019
+            </Typography>
+            <div>
+                <Link color="primary" href="#" onClick={preventDefault}>
+                    View balance
+                </Link>
+            </div>
+
+        </Card>
+    )
+}
+
+
+export default function Classes(props: any) {
+    return (
+        <Grid container spacing={3}>
+            {/* Recent Deposits */}
+            <Grid item xs={12} md={4} lg={3}>
+
+                <AddClass />
+
+            </Grid>
+            {/* Recent Classes */}
+            <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                    <ClassList tableName='Class List' />
+                </Paper>
+            </Grid>
+        </Grid>
+    );
+}

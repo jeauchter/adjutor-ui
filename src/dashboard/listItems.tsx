@@ -25,7 +25,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Orders" />
     </ListItemButton>
-    <ListItemButton href="/products">
+    <ListItemButton href="/products" color="secondary">
       <ListItemIcon>
         <ListIcon />
       </ListItemIcon>
@@ -70,7 +70,7 @@ const productRows = [
   createData(
     0,
     "Class",
-    ""
+    "/products/class"
   ),
   createData(
     1,
@@ -90,12 +90,9 @@ export  function SecondaryListItems( ): React.JSX.Element  {
 
   var rows = defaultRows
 
-  if(location.pathname === "/products"){
+  if(location.pathname.includes("/products")){
     rows = productRows
   }
-
-
-
  
   return (<React.Fragment>
     <ListSubheader component="div" inset>
