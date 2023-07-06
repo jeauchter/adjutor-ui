@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { classesAPI } from '../products/ProductSlice'
+import { classesAPI } from './apiSlice'
 // ...
 
 export const store = configureStore({
