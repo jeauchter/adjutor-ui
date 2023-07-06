@@ -4,11 +4,12 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import TableRow, { TableRowTypeMap } from '@mui/material/TableRow';
 import Title from '../components/Title';
 import { useGetClassesQuery } from '../app/apiSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import {DateTime} from '../components/Date';
+import { styled } from '@mui/material/styles';
 
 
 
@@ -16,15 +17,23 @@ function preventDefault(event: React.MouseEvent) {
     event.preventDefault();
 }
 
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  })) as typeof TableRow ;
 
-export default function Orders() {
-    const { data, error, isLoading } = useGetClassesQuery()
+export const ClassList: React.FunctionComponent = () => {
+    const { data, isLoading } = useGetClassesQuery()
     
     if (isLoading) {
         return <CircularProgress color="secondary" />
     }
     if (data) {
-        console.log(data)
         return (
             <React.Fragment>
                 <Title>Recently Added Classes</Title>
@@ -38,11 +47,11 @@ export default function Orders() {
                     </TableHead>
                     <TableBody>
                         {data.map((row) => (
-                            <TableRow key={row.id}>
+                            <StyledTableRow key={row.id}>
                                 <TableCell>{row.name}</TableCell>
                                 <TableCell>{row.Department.name}</TableCell>
                                 <TableCell><DateTime passedDate={row.createdAt} /></TableCell>
-                            </TableRow>
+                            </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table>
@@ -55,3 +64,4 @@ export default function Orders() {
 
     return null
 }
+
