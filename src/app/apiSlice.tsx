@@ -15,20 +15,14 @@ interface Department {
 }
 
 type ClassesReponse = Classes[]
+type DepartmentResponse = Department[]
 
 // Define a service using a base URL and expected endpoints
-export const classesAPI = createApi({
-  reducerPath: 'classesAPI',
+export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-  tagTypes: ['classes'],
-  endpoints: (build) => ({
-    getClasses: build.query<ClassesReponse, void>({
-      query: () => 'classes',
-      providesTags: ['classes']
-    })  
-  }),
+  tagTypes: ['Class', 'Department'],
+  endpoints: builder => ({}),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetClassesQuery } = classesAPI

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Dashboard from '../dashboard/Dashboard'
-import Products from '../products/Products'
-import Classes from '../products/Classes'
+import Products from '../features/products/Products'
+import Classes from '../features/products/Classes'
 
 
 // The Main component renders routes

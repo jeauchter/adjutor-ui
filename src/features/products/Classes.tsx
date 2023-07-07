@@ -5,12 +5,13 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow, { TableRowTypeMap } from '@mui/material/TableRow';
-import Title from '../components/Title';
-import { useGetClassesQuery } from '../app/apiSlice';
+import Title from '../../components/Title';
+import { useGetClassesQuery } from './classSlice';
 import CircularProgress from '@mui/material/CircularProgress';
-import { DateTime } from '../components/Date';
+import { DateTime } from '../../components/Date';
 import { styled } from '@mui/material/styles';
-import { Card, Grid, Icon, Paper, Typography } from '@mui/material';
+import { Box, Card, FormControl, Grid, Icon, InputLabel, OutlinedInput, Paper, TextField, Typography } from '@mui/material';
+import {DepartmentAutocomplete} from '../../components/autocomplete/Department';
 
 
 
@@ -39,6 +40,7 @@ export const ClassList: React.FunctionComponent<ClassList> = ({ tableName = "Rec
         return <CircularProgress color="secondary" />
     }
     if (data) {
+        const dataReverse = Array.from(data).reverse()
         return (
             <React.Fragment>
                 <Title>{tableName}</Title>
@@ -51,7 +53,7 @@ export const ClassList: React.FunctionComponent<ClassList> = ({ tableName = "Rec
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((row) => (
+                        {dataReverse.map((row) => (
                             <StyledTableRow key={row.id}>
                                 <TableCell>{row.name}</TableCell>
                                 <TableCell>{row.Department.name}</TableCell>
@@ -81,18 +83,26 @@ export const AddClass: React.FunctionComponent = () => {
                 height: 240,
             }}
         >
-            <Title>Recent Deposits</Title>
-            <Typography component="p" variant="h4">
-                $3,024.00
-            </Typography>
-            <Typography color="primary" sx={{ flex: 1 }}>
-                on 15 March, 2019
-            </Typography>
-            <div>
-                <Link color="primary" href="#" onClick={preventDefault}>
-                    View balance
-                </Link>
-            </div>
+            <Box
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <FormControl>
+                    <InputLabel htmlFor="component-outlined">Name</InputLabel>
+                        <OutlinedInput
+                        id="component-outlined"
+                        label="Name"
+                        />
+                
+                </FormControl>
+                <FormControl>
+                    <DepartmentAutocomplete />
+                </FormControl>
+            </Box>
 
         </Card>
     )
