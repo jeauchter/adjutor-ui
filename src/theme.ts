@@ -11,6 +11,9 @@ const theme = createTheme({
     secondary: {
       main: '#a5d6a7',
     },
+    background: {
+      default: '#e8e8e8',
+    },
   },
   shape: {
     borderRadius: 8,
