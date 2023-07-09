@@ -6,15 +6,17 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
+import { DataGrid, GridColDef, GridRowsProp, gridClasses } from '@mui/x-data-grid';
 import { Form, Formik } from 'formik';
 import * as React from 'react';
 import { DateTime } from '../../components/Date';
 import Title from '../../components/Title';
+import { useAddClassMutation, useGetClassesQuery } from './classSlice';
 import { useGetDepartmentsQuery } from './departementSlice';
-import { useGetClassesQuery, useAddClassMutation } from './classSlice';
 
 
+const ODD_OPACITY = 0.2;
 
 function preventDefault(event: React.MouseEvent) {
     event.preventDefault();
@@ -36,7 +38,7 @@ type ClassList = {
 
 
 
-export const ClassList: React.FunctionComponent<ClassList> = ({ tableName = "Recently Added Classes" }) => {
+export const ClassList: React.FC<ClassList> = ({ tableName = "Recently Added Classes" }) => {
     const { data, isLoading } = useGetClassesQuery()
 
     if (isLoading) {
@@ -75,6 +77,77 @@ export const ClassList: React.FunctionComponent<ClassList> = ({ tableName = "Rec
     return null
 }
 
+export function classListData<ClassList>() {
+    const { data, isLoading } = useGetClassesQuery()
+    if (isLoading) {
+        return []
+    }
+    if (data) {
+        const dataReverse = Array.from(data).reverse()
+        return dataReverse
+    }
+}
+
+const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
+    [`& .${gridClasses.row}.even`]: {
+      backgroundColor: theme.palette.grey[200],
+      '&:hover, &.Mui-hovered': {
+        backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY),
+        '@media (hover: none)': {
+          backgroundColor: 'transparent',
+        },
+      },
+      '&.Mui-selected': {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          ODD_OPACITY + theme.palette.action.selectedOpacity,
+        ),
+        '&:hover, &.Mui-hovered': {
+          backgroundColor: alpha(
+            theme.palette.primary.main,
+            ODD_OPACITY +
+              theme.palette.action.selectedOpacity +
+              theme.palette.action.hoverOpacity,
+          ),
+          // Reset on touch devices, it doesn't add specificity
+          '@media (hover: none)': {
+            backgroundColor: alpha(
+              theme.palette.primary.main,
+              ODD_OPACITY + theme.palette.action.selectedOpacity,
+            ),
+          },
+        },
+      },
+    },
+  }));
+export const ClassListDataTable: React.FC<ClassList> = ({ tableName = "Recently Added Classes" }) => {
+    const { data, isLoading } = useGetClassesQuery()
+    if (isLoading) {
+        return <CircularProgress color="secondary" />
+    }
+    if (data) {
+        const dataReverse = Array.from(data).reverse()
+        const rows: GridRowsProp = dataReverse
+        const columns: GridColDef[] = [
+            { field: "id", headerName: "ID", flex: 1, minWidth: 100, editable:false },
+            { field: "name", headerName: "Name", flex: 1, minWidth: 100, editable:false },
+            { field: "createdAt", headerName: "Created", flex: 1, minWidth: 100, editable:false },
+        ]
+        return (
+            <React.Fragment>
+                <Title>{tableName}</Title>
+                <DataGrid rows={rows} columns={columns}
+                 getRowClassName={(params) =>
+                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                  }
+                 initialState={{ pagination: { paginationModel: { pageSize: 5 } } }} />
+
+            </React.Fragment>
+        );
+    }
+    return null
+}
+
 interface Values {
     name: string,
     departmentName: string
@@ -107,7 +180,7 @@ export const AddClass: React.FC<Props> = ({ onSubmit }) => {
             })
         })
         return (
-            <Formik initialValues={{ name: '', departmentName: '' }} onSubmit={(values, {resetForm}) => {
+            <Formik initialValues={{ name: '', departmentName: '' }} onSubmit={(values, { resetForm }) => {
                 onSubmit(values)
                 resetForm()
             }}>
@@ -140,12 +213,12 @@ export const AddClass: React.FC<Props> = ({ onSubmit }) => {
                                         if (typeof newValue === 'string') {
                                             setValue({
                                                 name: newValue,
-                                              });
+                                            });
                                         } else if (newValue && newValue.inputValue) {
                                             // Create a new value from the user input
-                                            setFieldValue("departmentName", newValue.inputValue ? newValue.inputValue : newValue.name );
+                                            setFieldValue("departmentName", newValue.inputValue ? newValue.inputValue : newValue.name);
                                         } else {
-                                            setFieldValue("departmentName", newValue?.inputValue ? newValue?.inputValue : newValue?.name );
+                                            setFieldValue("departmentName", newValue?.inputValue ? newValue?.inputValue : newValue?.name);
                                         }
                                     }}
                                     filterOptions={(options, params) => {
@@ -212,10 +285,10 @@ export default function Classes(props: any) {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
 
-                <AddClass onSubmit={({name, departmentName}) => {
+                <AddClass onSubmit={({ name, departmentName }) => {
                     console.log(name, departmentName)
-                    addClass({name:name, departmentName:departmentName})
-                 }} />
+                    addClass({ name: name, departmentName: departmentName })
+                }} />
 
             </Grid>
             {/* Recent Classes */}
@@ -224,6 +297,13 @@ export default function Classes(props: any) {
                     <ClassList tableName='Class List' />
                 </Paper>
             </Grid>
+            <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                    <ClassListDataTable tableName='Class List' />
+                </Paper>
+            </Grid>
+
+
         </Grid>
     );
 }
