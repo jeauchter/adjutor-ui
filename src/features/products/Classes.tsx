@@ -77,17 +77,6 @@ export const ClassList: React.FC<ClassList> = ({ tableName = "Recently Added Cla
     return null
 }
 
-export function classListData<ClassList>() {
-    const { data, isLoading } = useGetClassesQuery()
-    if (isLoading) {
-        return []
-    }
-    if (data) {
-        const dataReverse = Array.from(data).reverse()
-        return dataReverse
-    }
-}
-
 const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
     [`& .${gridClasses.row}.even`]: {
       backgroundColor: theme.palette.grey[200],
@@ -120,17 +109,37 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
       },
     },
   }));
+
+
+type DataTableRow = {
+    id: number,
+    className: string,
+    departmentName: string,
+    createdAt: string
+}
+type DataTableRows = DataTableRow[]
 export const ClassListDataTable: React.FC<ClassList> = ({ tableName = "Recently Added Classes" }) => {
     const { data, isLoading } = useGetClassesQuery()
     if (isLoading) {
         return <CircularProgress color="secondary" />
     }
     if (data) {
-        const dataReverse = Array.from(data).reverse()
-        const rows: GridRowsProp = dataReverse
+        const rowData: DataTableRows = []
+        Array.from(data).reverse().forEach((row) => {
+            let dateCreated = new Date(row.createdAt).toLocaleString()
+            let newRow:DataTableRow = {
+                id: row.id,
+                className: row.name,
+                departmentName: row.Department.name,
+                createdAt: dateCreated
+            }
+            rowData.push(newRow)
+        })
+        
+        const rows: GridRowsProp = rowData
         const columns: GridColDef[] = [
-            { field: "id", headerName: "ID", flex: 1, minWidth: 100, editable:false },
-            { field: "name", headerName: "Name", flex: 1, minWidth: 100, editable:false },
+            { field: "className", headerName: "Name", flex: 1, minWidth: 100, editable:false },
+            { field: "departmentName", headerName: "Department Name", flex: 1, minWidth: 100, editable:false },
             { field: "createdAt", headerName: "Created", flex: 1, minWidth: 100, editable:false },
         ]
         return (
@@ -294,7 +303,7 @@ export default function Classes(props: any) {
             {/* Recent Classes */}
             <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                    <ClassList tableName='Class List' />
+                    {/* <ClassList tableName='Class List' /> */}
                 </Paper>
             </Grid>
             <Grid item xs={12}>
