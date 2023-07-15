@@ -125,7 +125,7 @@ export const ClassListDataTable: React.FC<ClassList> = ({ tableName = "Recently 
     }
     if (data) {
         const rowData: DataTableRows = []
-        Array.from(data).reverse().forEach((row) => {
+        Array.from(data).reverse().map((row) => {
             let dateCreated = new Date(row.createdAt).toLocaleString()
             let newRow:DataTableRow = {
                 id: row.id,
@@ -138,17 +138,18 @@ export const ClassListDataTable: React.FC<ClassList> = ({ tableName = "Recently 
         
         const rows: GridRowsProp = rowData
         const columns: GridColDef[] = [
-            { field: "className", headerName: "Name", flex: 1, minWidth: 100, editable:false },
-            { field: "departmentName", headerName: "Department Name", flex: 1, minWidth: 100, editable:false },
-            { field: "createdAt", headerName: "Created", flex: 1, minWidth: 100, editable:false },
+            {headerClassName: '.MuiTableHead-root', field: "className", headerName: "Name", flex: 1, minWidth: 100, editable:false },
+            {headerClassName: '.MuiTableHead-root', field: "departmentName", headerName: "Department Name", flex: 1, minWidth: 100, editable:false },
+            {headerClassName: '.MuiTableHead-root', field: "createdAt", headerName: "Created", flex: 1, minWidth: 100, editable:false },
         ]
         return (
             <React.Fragment>
                 <Title>{tableName}</Title>
-                <DataGrid rows={rows} columns={columns}
+                <StripedDataGrid rows={rows} columns={columns}
                  getRowClassName={(params) =>
                     params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                   }
+                  checkboxSelection
                  initialState={{ pagination: { paginationModel: { pageSize: 5 } } }} />
 
             </React.Fragment>
