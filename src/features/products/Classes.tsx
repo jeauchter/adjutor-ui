@@ -29,8 +29,8 @@ import { DateTime } from "../../components/Date";
 import Title from "../../components/Title";
 import { useAddClassMutation, useGetClassesQuery } from "./classSlice";
 import { useGetDepartmentsQuery } from "./departementSlice";
+import { AdjutorTable } from "../../components/AdjutorTable";
 
-const ODD_OPACITY = 0.2;
 
 function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
@@ -93,38 +93,7 @@ export const ClassList: React.FC<ClassList> = ({
   return null;
 };
 
-const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
-  [`& .${gridClasses.row}.even`]: {
-    backgroundColor: theme.palette.grey[200],
-    "&:hover, &.Mui-hovered": {
-      backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY),
-      "@media (hover: none)": {
-        backgroundColor: "transparent",
-      },
-    },
-    "&.Mui-selected": {
-      backgroundColor: alpha(
-        theme.palette.primary.main,
-        ODD_OPACITY + theme.palette.action.selectedOpacity
-      ),
-      "&:hover, &.Mui-hovered": {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          ODD_OPACITY +
-            theme.palette.action.selectedOpacity +
-            theme.palette.action.hoverOpacity
-        ),
-        // Reset on touch devices, it doesn't add specificity
-        "@media (hover: none)": {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            ODD_OPACITY + theme.palette.action.selectedOpacity
-          ),
-        },
-      },
-    },
-  },
-}));
+
 
 type DataTableRow = {
   id: number;
@@ -179,30 +148,9 @@ export const ClassListDataTable: React.FC<ClassList> = ({
         editable: false,
       },
     ];
-    return (
-      <React.Fragment>
-        <Title>{tableName}</Title>
-        <StripedDataGrid
-          sx={{
-            "&  .MuiDataGrid-columnHeaders": {
-              bgcolor: "primary.main",
-              color: "primary.contrastText",
-            },
-            "& .MuiDataGrid-columnHeaderTitleContainerContent > .MuiDataGrid-checkboxInput, .MuiDataGrid-menuIcon ":
-              {
-                color: "primary.contrastText",
-              },
-          }}
-          rows={rows}
-          columns={columns}
-          getRowClassName={(params) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
-          }
-          checkboxSelection
-          initialState={{ pagination: { paginationModel: { pageSize: 5 } } }}
-        />
-      </React.Fragment>
-    );
+    console.log(columns);
+    return <AdjutorTable tableName={tableName} rows={rows} columns={columns} />
+    
   }
   return null;
 };
