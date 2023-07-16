@@ -10,90 +10,21 @@ import {
   createFilterOptions,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import Link from "@mui/material/Link";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import { styled, alpha } from "@mui/material/styles";
 import {
-  DataGrid,
   GridColDef,
-  GridRowsProp,
-  gridClasses,
+  GridRowsProp
 } from "@mui/x-data-grid";
 import { Form, Formik } from "formik";
 import * as React from "react";
-import { DateTime } from "../../components/Date";
+import { AdjutorTable } from "../../components/AdjutorTable";
 import Title from "../../components/Title";
 import { useAddClassMutation, useGetClassesQuery } from "./classSlice";
 import { useGetDepartmentsQuery } from "./departementSlice";
-import { AdjutorTable } from "../../components/AdjutorTable";
-
-
-function preventDefault(event: React.MouseEvent) {
-  event.preventDefault();
-}
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-})) as typeof TableRow;
+import {  AddClassApi } from "../../models/classes.model"
 
 type ClassList = {
   tableName?: string;
 };
-
-export const ClassList: React.FC<ClassList> = ({
-  tableName = "Recently Added Classes",
-}) => {
-  const { data, isLoading } = useGetClassesQuery();
-
-  if (isLoading) {
-    return <CircularProgress color="secondary" />;
-  }
-  if (data) {
-    const dataReverse = Array.from(data).reverse();
-    return (
-      <React.Fragment>
-        <Title>{tableName}</Title>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Department</TableCell>
-              <TableCell>Created</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataReverse.map((row) => (
-              <StyledTableRow key={row.id}>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.Department.name}</TableCell>
-                <TableCell>
-                  <DateTime passedDate={row.createdAt} />
-                </TableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-          See more classes
-        </Link>
-      </React.Fragment>
-    );
-  }
-
-  return null;
-};
-
-
 
 type DataTableRow = {
   id: number;
@@ -101,7 +32,6 @@ type DataTableRow = {
   departmentName: string;
   createdAt: string;
 };
-type DataTableRows = DataTableRow[];
 export const ClassListDataTable: React.FC<ClassList> = ({
   tableName = "Recently Added Classes",
 }) => {
@@ -110,7 +40,7 @@ export const ClassListDataTable: React.FC<ClassList> = ({
     return <CircularProgress color="secondary" />;
   }
   if (data) {
-    const rowData: DataTableRows = [];
+    const rowData: DataTableRow[] = [];
     Array.from(data)
       .reverse()
       .map((row) => {
@@ -131,14 +61,14 @@ export const ClassListDataTable: React.FC<ClassList> = ({
         headerName: "Name",
         flex: 1,
         minWidth: 100,
-        editable: false,
+        editable: true,
       },
       {
         field: "departmentName",
         headerName: "Department Name",
         flex: 1,
         minWidth: 100,
-        editable: false,
+        editable: true,
       },
       {
         field: "createdAt",
@@ -149,19 +79,16 @@ export const ClassListDataTable: React.FC<ClassList> = ({
       },
     ];
     console.log(columns);
-    return <AdjutorTable tableName={tableName} rows={rows} columns={columns} />
+    return <AdjutorTable tableName={tableName} rows={rowData as []} columns={columns}  />
     
   }
   return null;
 };
 
-interface Values {
-  name: string;
-  departmentName: string;
-}
+
 
 interface Props {
-  onSubmit: (values: Values) => void;
+  onSubmit: (values: AddClassApi) => void;
 }
 
 interface DepartmentOptionType {
@@ -174,6 +101,7 @@ const filter = createFilterOptions<DepartmentOptionType>();
 export const AddClass: React.FC<Props> = ({ onSubmit }) => {
   const [value, setValue] = React.useState<DepartmentOptionType | null>(null);
   const { data, isLoading } = useGetDepartmentsQuery();
+
   if (isLoading) {
   }
   if (data) {
@@ -315,12 +243,6 @@ export default function Classes(props: any) {
           }}
         />
       </Grid>
-      {/* Recent Classes */}
-      {/* <Grid item xs={12}>
-        <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-          <ClassList tableName='Class List' />
-        </Paper>
-      </Grid> */}
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
           <ClassListDataTable tableName="Class List" />

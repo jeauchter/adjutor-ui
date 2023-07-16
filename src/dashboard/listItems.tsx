@@ -75,7 +75,7 @@ const productRows = [
   createData(
     1,
     "Department",
-    ""
+    "/products/department"
   ),
   createData(
     2,

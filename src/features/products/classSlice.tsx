@@ -1,6 +1,8 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/apiSlice";
-import { ResetTvOutlined } from "@mui/icons-material";
+import { Agriculture, ResetTvOutlined } from "@mui/icons-material";
+import { arEG } from "@mui/material/locale";
+import { Classes } from "../../models/classes.model";
 
 
 const classAdapter = createEntityAdapter()
@@ -9,23 +11,10 @@ const initialState = classAdapter.getInitialState({
     name: "",
     departmentName: ""
 })
-export interface Classes {
-    id: number,
-    name: string,
-    DepartmentID: number,
-    Department: Department,
-    createdAt: string
-}
-
-interface Department {
-    id: number,
-    name: string
-}
-type ClassesReponse = Classes[]
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getClasses: builder.query<ClassesReponse, void>({
+        getClasses: builder.query< Classes[], void>({
             query: () => 'classes',
             providesTags: (result) => 
             result
@@ -47,7 +36,20 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                 {type: 'Class', id: "LIST"}
             ]
         })
+        ,
+        updateClass: builder.mutation({
+            query:initialState => ({
+                url:`classes/${initialState.id}`,
+                method: 'PUT',
+                body: {
+                    ...initialState
+                }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                {type: 'Class', id: arg.id}
+            ]
+        })
     })
 })
 
-export const {useGetClassesQuery, useAddClassMutation} = extendedApiSlice
+export const {useGetClassesQuery, useAddClassMutation, useUpdateClassMutation} = extendedApiSlice

@@ -12,11 +12,10 @@ export interface Department {
     createdAt: string
 }
 
-type DepartmentsReponse = Department[]
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getDepartments: builder.query<DepartmentsReponse, void>({
+        getDepartments: builder.query<Department[], void>({
             query: () => 'departments',
             providesTags: (result) => 
             result
