@@ -88,13 +88,14 @@ export const AdjutorTable: React.FC<TableProps> = ({
   return (
     <React.Fragment>
       <Title>{tableName}</Title>
+      
       <StripedDataGrid
         sx={{
           "&  .MuiDataGrid-columnHeaders": {
             bgcolor: "primary.main",
             color: "primary.contrastText",
           },
-          "& .MuiDataGrid-columnHeaderTitleContainerContent > .MuiDataGrid-checkboxInput, .MuiDataGrid-menuIcon ":
+          "& .MuiDataGrid-columnHeadersInner > .MuiDataGrid-checkboxInput, .MuiDataGrid-columnHeadersInner > .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeadersInner >  .MuiDataGrid-menuIconButton": 
             {
               color: "primary.contrastText",
             },
