@@ -1,15 +1,11 @@
 import { Title } from "@mui/icons-material";
 import {
-  GridColDef,
-  GridColumnHeaders,
-  GridColumnsInitialState,
-  GridColumnVisibilityModel,
+    GridColDef
 } from "@mui/x-data-grid";
+import React from "react";
 import { AdjutorTable } from "../../../components/AdjutorTable";
 import { DateTime } from "../../../components/Date";
 import { useGetDepartmentsQuery } from "./departementSlice";
-import React from "react";
-import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
 interface IDepartmentDataTableProps {
   tableName?: string;

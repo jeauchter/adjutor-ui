@@ -9,75 +9,15 @@ import {
   TextField,
   createFilterOptions,
 } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { Form, Formik } from "formik";
 import * as React from "react";
-import { AdjutorTable } from "../../../components/AdjutorTable";
 import Title from "../../../components/Title";
-import { useAddClassMutation, useGetClassesQuery } from "./classSlice";
-import { useGetDepartmentsQuery } from "../departments/departementSlice";
 import { AddClassApi } from "../../../models/classes.model";
-import { DateTime } from "../../../components/Date";
-
-type ClassList = {
-  tableName?: string;
-};
+import { useGetDepartmentsQuery } from "../departments/departementSlice";
+import { ClassList } from "./ClassList";
+import { useAddClassMutation } from "./classSlice";
 
 
-type HiddenColumns = {
-  [key: string]: boolean;
-};
-export const ClassListDataTable: React.FC<ClassList> = ({
-  tableName = "Recently Added Classes",
-}) => {
-  const { data: classes, isLoading, isSuccess } = useGetClassesQuery();
-  // const { data: departments, error, isLoading:departmentLoading, isFetching, isSuccess } = useGetDepartmentsQuery();
-  const hiddenColumns: HiddenColumns = {};
-  console.log(classes);
-  const columns: GridColDef[] = [
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      minWidth: 100,
-      editable: true,
-    },
-    {
-      field: "departmentName",
-      headerName: "Department Name",
-      flex: 1,
-      minWidth: 100,
-      editable: true,
-      valueGetter: (params) => params.row.Department.name
-    },
-    {
-      field: "createdAt",
-      headerName: "Created",
-      flex: 1,
-      minWidth: 100,
-      editable: false,
-      renderCell: (params) => <DateTime passedDate={params.value} />,
-    },
-  ];
-  let content;
-  {
-    isLoading && (content = <CircularProgress color="secondary" />);
-  }
-  {
-    isSuccess &&
-      
-    (content = 
-      <AdjutorTable
-        tableName={tableName}
-        rows={Array.from(classes).reverse() as []}
-        columns={columns}
-        hiddenColumns={hiddenColumns}
-      />
-    );
-  }
-  return <div>{content}</div>
-};
 
 interface Props {
   onSubmit: (values: AddClassApi) => void;
@@ -237,7 +177,7 @@ export default function Classes(props: any) {
       </Grid>
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-          <ClassListDataTable tableName="Class List" />
+          <ClassList tableName="Class List" />
         </Paper>
       </Grid>
     </Grid>
