@@ -10,82 +10,74 @@ import {
   createFilterOptions,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import {
-  GridColDef,
-  GridRowsProp
-} from "@mui/x-data-grid";
+import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { Form, Formik } from "formik";
 import * as React from "react";
-import { AdjutorTable } from "../../components/AdjutorTable";
-import Title from "../../components/Title";
+import { AdjutorTable } from "../../../components/AdjutorTable";
+import Title from "../../../components/Title";
 import { useAddClassMutation, useGetClassesQuery } from "./classSlice";
-import { useGetDepartmentsQuery } from "./departementSlice";
-import {  AddClassApi } from "../../models/classes.model"
+import { useGetDepartmentsQuery } from "../departments/departementSlice";
+import { AddClassApi } from "../../../models/classes.model";
+import { DateTime } from "../../../components/Date";
 
 type ClassList = {
   tableName?: string;
 };
 
-type DataTableRow = {
-  id: number;
-  className: string;
-  departmentName: string;
-  createdAt: string;
+
+type HiddenColumns = {
+  [key: string]: boolean;
 };
 export const ClassListDataTable: React.FC<ClassList> = ({
   tableName = "Recently Added Classes",
 }) => {
-  const { data, isLoading } = useGetClassesQuery();
-  if (isLoading) {
-    return <CircularProgress color="secondary" />;
+  const { data: classes, isLoading, isSuccess } = useGetClassesQuery();
+  // const { data: departments, error, isLoading:departmentLoading, isFetching, isSuccess } = useGetDepartmentsQuery();
+  const hiddenColumns: HiddenColumns = {};
+  console.log(classes);
+  const columns: GridColDef[] = [
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      minWidth: 100,
+      editable: true,
+    },
+    {
+      field: "departmentName",
+      headerName: "Department Name",
+      flex: 1,
+      minWidth: 100,
+      editable: true,
+      valueGetter: (params) => params.row.Department.name
+    },
+    {
+      field: "createdAt",
+      headerName: "Created",
+      flex: 1,
+      minWidth: 100,
+      editable: false,
+      renderCell: (params) => <DateTime passedDate={params.value} />,
+    },
+  ];
+  let content;
+  {
+    isLoading && (content = <CircularProgress color="secondary" />);
   }
-  if (data) {
-    const rowData: DataTableRow[] = [];
-    Array.from(data)
-      .reverse()
-      .map((row) => {
-        let dateCreated = new Date(row.createdAt).toLocaleString();
-        let newRow: DataTableRow = {
-          id: row.id,
-          className: row.name,
-          departmentName: row.Department.name,
-          createdAt: dateCreated,
-        };
-        rowData.push(newRow);
-      });
-
-    const rows: GridRowsProp = rowData;
-    const columns: GridColDef[] = [
-      {
-        field: "className",
-        headerName: "Name",
-        flex: 1,
-        minWidth: 100,
-        editable: true,
-      },
-      {
-        field: "departmentName",
-        headerName: "Department Name",
-        flex: 1,
-        minWidth: 100,
-        editable: true,
-      },
-      {
-        field: "createdAt",
-        headerName: "Created",
-        flex: 1,
-        minWidth: 100,
-        editable: false,
-      },
-    ];
-    console.log(columns);
-    return <AdjutorTable tableName={tableName} rows={rowData as []} columns={columns}  />
-    
+  {
+    isSuccess &&
+      
+    (content = 
+      <AdjutorTable
+        tableName={tableName}
+        rows={Array.from(classes).reverse() as []}
+        columns={columns}
+        hiddenColumns={hiddenColumns}
+      />
+    );
   }
-  return null;
+  return <div>{content}</div>
 };
-
-
 
 interface Props {
   onSubmit: (values: AddClassApi) => void;

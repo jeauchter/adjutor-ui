@@ -1,8 +1,6 @@
 import { createEntityAdapter } from "@reduxjs/toolkit";
-import { apiSlice } from "../../app/apiSlice";
-import { Agriculture, ResetTvOutlined } from "@mui/icons-material";
-import { arEG } from "@mui/material/locale";
-import { Classes } from "../../models/classes.model";
+import { apiSlice } from "../../../app/apiSlice";
+import { Classes } from "../../../models/classes.model";
 
 
 const classAdapter = createEntityAdapter()

@@ -1,6 +1,6 @@
 import { Grid, Paper } from "@mui/material";
 import React from "react";
-import {ClassListDataTable} from "./Classes";
+import {ClassListDataTable} from "./classes/Classes";
 
 
 export default function Products(props: any) {

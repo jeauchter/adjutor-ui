@@ -1,7 +1,11 @@
 export interface Department {
-    id: number,
-    name: string,
-    createdAt: string
+  id: number;
+  name: string;
+  createdAt: string;
 }
 
-export default {}
+export interface AddDepartmentApi {
+  name: string;
+}
+
+export default {};

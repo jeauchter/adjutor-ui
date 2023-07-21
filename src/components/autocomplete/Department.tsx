@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { useGetDepartmentsQuery } from '../../features/products/departementSlice';
+import { useGetDepartmentsQuery } from '../../features/products/departments/departementSlice';
 
 const filter = createFilterOptions<DepartmentOptionType>();
 

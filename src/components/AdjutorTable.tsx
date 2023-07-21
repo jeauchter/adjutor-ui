@@ -17,16 +17,16 @@ import {
   randomTraderName,
   randomId,
   randomArrayItem,
-} from '@mui/x-data-grid-generator';
-import React from "react";
+} from "@mui/x-data-grid-generator";
+import React, { useState } from "react";
 import Title from "./Title";
 import { styled, alpha } from "@mui/material/styles";
 
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Close";
 import { Button } from "@mui/material";
 
 const ODD_OPACITY = 0.2;
@@ -64,23 +64,27 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
   },
 }));
 
+type HiddenColumns = {
+  [key: string]: boolean;
+};
+
 type TableProps = {
   tableName?: string;
   numPerPage?: number;
   rows: [];
   columns: GridColDef[];
+  hiddenColumns?: HiddenColumns | null;
 };
 
 export const AdjutorTable: React.FC<TableProps> = ({
   tableName,
   rows,
   columns,
-  numPerPage = 5
+  numPerPage = 5,
+  hiddenColumns = {},
 }) => {
+  const rowData: GridRowsProp = rows;
 
- 
-  
-  
   return (
     <React.Fragment>
       <Title>{tableName}</Title>
@@ -95,15 +99,22 @@ export const AdjutorTable: React.FC<TableProps> = ({
               color: "primary.contrastText",
             },
         }}
-        rows={rows}
+        rows={rowData}
         columns={columns}
         getRowClassName={(params) =>
           params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
         }
         pageSizeOptions={[numPerPage]}
-        initialState={{ pagination: { paginationModel: { pageSize: numPerPage } } }}
+        initialState={{
+          pagination: { paginationModel: { pageSize: numPerPage } },
+          columns: {
+            columnVisibilityModel: {
+              // Hide columns status and traderName, the other columns will remain visible
+              ...hiddenColumns,
+            },
+          },
+        }}
       />
-      
     </React.Fragment>
   );
 };
