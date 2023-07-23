@@ -1,11 +1,7 @@
-import { Box, CircularProgress, Fab } from "@mui/material";
 import { GridRenderCellParams, GridTreeNodeWithRender } from "@mui/x-data-grid";
 import React, { FC, useState } from "react";
-import { useUpdateDepartmentMutation } from "./departementSlice";
-import { Check } from "@mui/icons-material";
-import Save from "@mui/icons-material/Save";
-import { green } from "@mui/material/colors";
 import AdjutorTableActions from "../../../components/AdjutorTableActions";
+import { useDeleteDepartmentMutation, useUpdateDepartmentMutation } from "./departementSlice";
 
 interface DepartmentActionsProps {
   params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>;
@@ -19,10 +15,22 @@ const DepartmentActions: FC<DepartmentActionsProps> = ({
 }) => {
 
   const [updateDepartment, { isLoading: isUpdating }] =
-    useUpdateDepartmentMutation();
-  const [isEditing, setIsEditing] = useState(false);
-  const handleSubmit = async () => {
+    useUpdateDepartmentMutation()
+
+  const [deleteDepartment, {isLoading: isDeleting, error:deleteError}] = useDeleteDepartmentMutation()
+  const [isEditing, setIsEditing] = useState(false)
+
+
+  
+  const handleUpdateSubmit = async () => {
     await updateDepartment(params.row)
+    setIsEditing(false)
+    setRowId(null)
+  }
+  
+  const handleDeleteSubmit = () => {
+    console.log(params.row.id)
+    deleteDepartment(params.row.id)
     setIsEditing(false)
     setRowId(null)
   }
@@ -31,7 +39,10 @@ const DepartmentActions: FC<DepartmentActionsProps> = ({
         rowId,
         isEditing,
         isUpdating,
-        handleSubmit}} />
+        isDeleting,
+        handleUpdateSubmit,
+        handleDeleteSubmit
+    }} />
   );
 };
 
