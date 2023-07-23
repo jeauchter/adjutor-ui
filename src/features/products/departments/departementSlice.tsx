@@ -18,6 +18,10 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: "Department", id: "LIST" }],
     }),
+    getDepartment: builder.query<Department, number>({
+      query: (id) => `departments/${id}`,
+      providesTags: (result, error, id) => [{ type: "Department", id }],
+    }),
     addDepartment: builder.mutation<Department, Partial<Department>>({
       query(body) {
         return {
@@ -28,8 +32,35 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: [{ type: "Department", id: "LIST" }],
     }),
+    updateDepartment: builder.mutation<Department, Partial<Department>>({
+      query(data) {
+        const { id, ...put } = data;
+        return {
+          url: `departments/${id}`,
+          method: "PUT",
+          body: put,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: "Department", id: arg.id },
+      ],
+    }),
+    deleteDepartment: builder.mutation<{ success: boolean; id: number },number>({
+      query(id) {
+        return {
+          url: `departments/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: (result, error, id) => [{ type: "Department", id }],
+    }),
   }),
 });
 
-export const { useGetDepartmentsQuery, useAddDepartmentMutation } =
-  extendedApiSlice;
+export const {
+  useGetDepartmentsQuery,
+  useAddDepartmentMutation,
+  useUpdateDepartmentMutation,
+  useGetDepartmentQuery,
+  useDeleteDepartmentMutation,
+} = extendedApiSlice;
