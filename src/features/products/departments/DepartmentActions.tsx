@@ -1,7 +1,11 @@
 import { GridRenderCellParams, GridTreeNodeWithRender } from "@mui/x-data-grid";
 import React, { FC, useState } from "react";
 import AdjutorTableActions from "../../../components/AdjutorTableActions";
-import { useDeleteDepartmentMutation, useUpdateDepartmentMutation } from "./departementSlice";
+import {
+  useDeleteDepartmentMutation,
+  useUpdateDepartmentMutation,
+} from "./departementSlice";
+import { enqueueSnackbar } from "notistack";
 
 interface DepartmentActionsProps {
   params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>;
@@ -13,36 +17,43 @@ const DepartmentActions: FC<DepartmentActionsProps> = ({
   rowId,
   setRowId,
 }) => {
-
   const [updateDepartment, { isLoading: isUpdating }] =
-    useUpdateDepartmentMutation()
+    useUpdateDepartmentMutation();
 
-  const [deleteDepartment, {isLoading: isDeleting, error:deleteError}] = useDeleteDepartmentMutation()
-  const [isEditing, setIsEditing] = useState(false)
+  const [deleteDepartment, { isLoading: isDeleting, error: deleteError }] =
+    useDeleteDepartmentMutation();
+  const [isEditing, setIsEditing] = useState(false);
 
-
-  
   const handleUpdateSubmit = async () => {
-    await updateDepartment(params.row)
-    setIsEditing(false)
-    setRowId(null)
-  }
-  
+    await updateDepartment(params.row);
+    setIsEditing(false);
+    setRowId(null);
+  };
+
   const handleDeleteSubmit = () => {
-    console.log(params.row.id)
+    console.log(params.row.id);
     deleteDepartment(params.row.id)
-    setIsEditing(false)
-    setRowId(null)
-  }
+      .unwrap()
+      .then()
+      .catch((error) => {
+        console.log(error);
+        enqueueSnackbar(error.data.error, { variant: "error" });
+      });
+    setIsEditing(false);
+    setRowId(null);
+  };
   return (
-    <AdjutorTableActions {...{params,
+    <AdjutorTableActions
+      {...{
+        params,
         rowId,
         isEditing,
         isUpdating,
         isDeleting,
         handleUpdateSubmit,
-        handleDeleteSubmit
-    }} />
+        handleDeleteSubmit,
+      }}
+    />
   );
 };
 

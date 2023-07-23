@@ -30,8 +30,7 @@ export const DepartmentDataTable: React.FC<IDepartmentDataTableProps> = (
   } = useGetDepartmentsQuery();
   let content;
   const [rowId, setRowId] = useState(null);
-  const [updateDepartment, { isLoading: isUpdating }] =
-    useUpdateDepartmentMutation();
+
 
   const hiddenColumns: HiddenColumns = {
     id: false,
@@ -75,7 +74,7 @@ export const DepartmentDataTable: React.FC<IDepartmentDataTableProps> = (
         type: "actions",
         renderCell: (params) => (
           <DepartmentActions
-            {...{ params, rowId, setRowId, updateDepartment, isUpdating }}
+            {...{ params, rowId, setRowId }}
           />
         ),
       },

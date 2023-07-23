@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Main from './components/Main';
 import { store } from './app/store'
 import { Provider } from 'react-redux'
+import { SnackbarProvider } from 'notistack';
 
 const rootElement = document.getElementById('root');
 const root = ReactDOM.createRoot(rootElement!);
@@ -16,9 +17,11 @@ root.render(
   <Provider store={store}>
   <BrowserRouter>
   <ThemeProvider theme={theme}>
+  <SnackbarProvider maxSnack={3}>
     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
     <CssBaseline />
     <App />
+  </SnackbarProvider>
   </ThemeProvider>,
   </BrowserRouter>
   </Provider>
