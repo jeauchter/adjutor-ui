@@ -9,7 +9,6 @@ interface AdjutorTableActionsProps {
   params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>;
   rowId: any;
   isEditing: boolean;
-  updateLoading: boolean;
   handleUpdateSubmit?: any;
   handleDeleteSubmit?: any;
 }
@@ -18,7 +17,6 @@ function saveButton(
   params: any,
   rowId: number,
   isEditing: boolean,
-  updateLoading: boolean,
   handleUpdateSubmit: any
 ) {
   return (
@@ -62,7 +60,6 @@ const AdjutorTableActions: FC<AdjutorTableActionsProps> = ({
   params,
   rowId,
   isEditing,
-  updateLoading,
   handleUpdateSubmit,
   handleDeleteSubmit,
 }) => {
@@ -74,7 +71,6 @@ const AdjutorTableActions: FC<AdjutorTableActionsProps> = ({
         params,
         rowId,
         isEditing,
-        updateLoading,
         handleUpdateSubmit
       ));
   }

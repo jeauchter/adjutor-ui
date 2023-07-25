@@ -50,7 +50,6 @@ const DepartmentActions: FC<DepartmentActionsProps> = ({
         params,
         rowId,
         isEditing,
-        updateLoading,
         isDeleting,
         handleUpdateSubmit,
         handleDeleteSubmit,
