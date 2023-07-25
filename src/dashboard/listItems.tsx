@@ -80,7 +80,7 @@ const productRows = [
   createData(
     2,
     "Variants",
-    ""
+    "/products/variant"
   ),
 ];
 

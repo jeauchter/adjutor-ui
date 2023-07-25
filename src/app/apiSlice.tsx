@@ -20,7 +20,7 @@ type DepartmentResponse = Department[]
 // Define a service using a base URL and expected endpoints
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-  tagTypes: ['Class', 'Department'],
+  tagTypes: ['Class', 'Department', 'Variant'],
   endpoints: builder => ({}),
 })
 
