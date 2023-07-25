@@ -32,6 +32,7 @@ export const DepartmentDataTable: React.FC<IDepartmentDataTableProps> = (
   const [rowId, setRowId] = useState(null);
 
 
+
   const hiddenColumns: HiddenColumns = {
     id: false,
   };
@@ -96,6 +97,7 @@ export const DepartmentDataTable: React.FC<IDepartmentDataTableProps> = (
           columns={columns}
           hiddenColumns={hiddenColumns}
           onCellEdit={setRowId}
+          loading={isLoading}
         />
       ));
   }

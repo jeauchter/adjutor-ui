@@ -45,9 +45,6 @@ export const ClassList: FC<ClassListProps> = ({ tableName }) => {
   ];
   let content;
   {
-    isLoading && (content = <CircularProgress color="secondary" />);
-  }
-  {
     isSuccess &&
       (content = (
         <AdjutorTable
@@ -55,6 +52,7 @@ export const ClassList: FC<ClassListProps> = ({ tableName }) => {
           rows={Array.from(classes).reverse() as []}
           columns={columns}
           hiddenColumns={hiddenColumns}
+          loading={isLoading}
         />
       ));
   }

@@ -9,63 +9,84 @@ interface AdjutorTableActionsProps {
   params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>;
   rowId: any;
   isEditing: boolean;
-  isUpdating: boolean;
-  isDeleting: boolean;
+  updateLoading: boolean;
   handleUpdateSubmit?: any;
   handleDeleteSubmit?: any;
 }
-const AdjutorTableActions: FC<AdjutorTableActionsProps> = ({
-  params,
-  rowId,
-  isEditing,
-  isUpdating,
-  isDeleting,
-  handleUpdateSubmit,
-  handleDeleteSubmit
-}) => {
 
-
+function saveButton(
+  params: any,
+  rowId: number,
+  isEditing: boolean,
+  updateLoading: boolean,
+  handleUpdateSubmit: any
+) {
   return (
-    <Box sx={{ m: 1, postion: "relative" }}>
-      
-      { handleUpdateSubmit && (<Fab
+    <React.Fragment>
+        <Fab
           color="primary"
           sx={{
             width: 40,
             height: 40,
-            m:1
+            m: 1,
           }}
           disabled={params.id !== rowId || isEditing}
           onClick={handleUpdateSubmit}
         >
           <Save />
+     
         </Fab>
-        )}
-       { handleDeleteSubmit && (<Fab
-          color="primary"
-          sx={{
-            width: 40,
-            height: 40,
-            m:1
-          }}
-          onClick={handleDeleteSubmit}
-        >
-          <Delete />
-        </Fab>)}
-      {isUpdating || isDeleting && (
-        <CircularProgress
-          size={52}
-          sx={{
-            color: green[500],
-            postion: "absolute",
-            top: -6,
-            left:-6,
-            zIndex:1
-          }}
-        />
-      )}
+    </React.Fragment>
+  );
+}
+
+function deleteButton(handleDeleteSubmit: any) {
+  return (
+    <React.Fragment>
+      <Fab
+        color="primary"
+        sx={{
+          width: 40,
+          height: 40,
+          m: 1,
+        }}
+        onClick={handleDeleteSubmit}
+      >
+        <Delete />
+      </Fab>
+    </React.Fragment>
+  );
+}
+
+const AdjutorTableActions: FC<AdjutorTableActionsProps> = ({
+  params,
+  rowId,
+  isEditing,
+  updateLoading,
+  handleUpdateSubmit,
+  handleDeleteSubmit,
+}) => {
+  let button;
+  let deleteButtonFrag;
+  {
+    handleUpdateSubmit &&
+      (button = saveButton(
+        params,
+        rowId,
+        isEditing,
+        updateLoading,
+        handleUpdateSubmit
+      ));
+  }
+  {
+    handleDeleteSubmit && (deleteButtonFrag = deleteButton(handleDeleteSubmit));
+  }
+
+  return (
+    <Box sx={{ m: 1, display: "flex", postion: "relative" }}>
+      {button}
+      {deleteButtonFrag}
     </Box>
-    
   );
 };
 

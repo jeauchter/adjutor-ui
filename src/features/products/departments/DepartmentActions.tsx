@@ -20,6 +20,8 @@ const DepartmentActions: FC<DepartmentActionsProps> = ({
   const [updateDepartment, { isLoading: isUpdating }] =
     useUpdateDepartmentMutation();
 
+  const [updateLoading, setUpdateLoading] = useState(true)
+
   const [deleteDepartment, { isLoading: isDeleting, error: deleteError }] =
     useDeleteDepartmentMutation();
   const [isEditing, setIsEditing] = useState(false);
@@ -48,7 +50,7 @@ const DepartmentActions: FC<DepartmentActionsProps> = ({
         params,
         rowId,
         isEditing,
-        isUpdating,
+        updateLoading,
         isDeleting,
         handleUpdateSubmit,
         handleDeleteSubmit,

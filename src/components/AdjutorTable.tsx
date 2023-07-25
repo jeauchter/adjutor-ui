@@ -27,7 +27,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
-import { Button } from "@mui/material";
+import { Button, LinearProgress } from "@mui/material";
 import { PanoramaSharp } from "@mui/icons-material";
 
 const ODD_OPACITY = 0.2;
@@ -75,7 +75,8 @@ type TableProps = {
   rows: [];
   columns: GridColDef[];
   hiddenColumns?: HiddenColumns | null;
-  onCellEdit?: any
+  onCellEdit?: any;
+  loading: boolean;
 };
 
 export const AdjutorTable: React.FC<TableProps> = ({
@@ -84,21 +85,26 @@ export const AdjutorTable: React.FC<TableProps> = ({
   columns,
   numPerPage = 5,
   hiddenColumns = {},
-  onCellEdit
+  onCellEdit,
+  loading,
 }) => {
   const rowData: GridRowsProp = rows;
 
   return (
     <React.Fragment>
       <Title>{tableName}</Title>
-      
+
       <StripedDataGrid
+        loading={loading}
+        slots={{
+          loadingOverlay: LinearProgress,
+        }}
         sx={{
           "&  .MuiDataGrid-columnHeaders": {
             bgcolor: "primary.main",
             color: "primary.contrastText",
           },
-          "& .MuiDataGrid-columnHeadersInner > .MuiDataGrid-checkboxInput, .MuiDataGrid-columnHeadersInner > .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeadersInner >  .MuiDataGrid-menuIconButton": 
+          "& .MuiDataGrid-columnHeadersInner > .MuiDataGrid-checkboxInput, .MuiDataGrid-columnHeadersInner > .MuiDataGrid-menuIcon, .MuiDataGrid-columnHeadersInner >  .MuiDataGrid-menuIconButton":
             {
               color: "primary.contrastText",
             },
@@ -118,7 +124,7 @@ export const AdjutorTable: React.FC<TableProps> = ({
             },
           },
         }}
-        onCellEditStop={params => onCellEdit(params.id)}
+        onCellEditStop={(params) => onCellEdit(params.id)}
       />
     </React.Fragment>
   );
