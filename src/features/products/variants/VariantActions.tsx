@@ -52,6 +52,7 @@ const VariantActions: FC<VariantActionsProps> = ({
         isEditing,
         updateLoading,
         isDeleting,
+        handleUpdateSubmit,
         handleDeleteSubmit,
       }}
     />
