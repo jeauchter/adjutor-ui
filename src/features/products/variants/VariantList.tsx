@@ -1,11 +1,12 @@
 import { Title } from "@mui/icons-material";
 import { GridColDef } from "@mui/x-data-grid";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { AdjutorTable } from "../../../components/AdjutorTable";
 import { DateTime } from "../../../components/Date";
 import { useGetVariantsQuery, useUpdateVariantMutation } from "./variantSlice";
 import AdjutorTableActions from "../../../components/AdjutorTableActions";
 import { enqueueSnackbar } from "notistack";
+import VariantActions from "./VariantActions";
 
 interface IVariantDataTableProps {
   tableName?: string;
@@ -15,9 +16,9 @@ type HiddenColumns = {
   [key: string]: boolean;
 };
 
-export const VariantDataTable: React.FC<IVariantDataTableProps> = (props) => {
+export function VariantDataTable(props:IVariantDataTableProps)  {
   const {
-    data: variantResults,
+    data: variantResults = [],
     error,
     isLoading,
     isFetching,
@@ -26,11 +27,7 @@ export const VariantDataTable: React.FC<IVariantDataTableProps> = (props) => {
   } = useGetVariantsQuery();
   let content;
   const [rowId, setRowId] = useState(null);
-  const [variants, setVariants] = useState(variantResults);
 
-  {
-    isSuccess && setVariants(Array.from(variantResults).reverse());
-  }
   const hiddenColumns: HiddenColumns = {
     id: false,
   };
@@ -67,28 +64,28 @@ export const VariantDataTable: React.FC<IVariantDataTableProps> = (props) => {
         editable: false,
         renderCell: (params) => <DateTime passedDate={params.value} />,
       },
-      //   {
-      //     field: "actions",
-      //     headerName: "Actions",
-      //     type: "actions",
-      //     renderCell: (params) => (
-      //       <VariantActions
-      //         {...{ params, rowId, setRowId }}
-      //       />
-      //     ),
-      //   },
+        {
+          field: "actions",
+          headerName: "Actions",
+          type: "actions",
+          renderCell: (params) => (
+            <VariantActions
+              {...{ params, rowId, setRowId }}
+            />
+          ),
+        },
     ],
     [rowId]
   );
 
-  return (
-    <AdjutorTable
+ 
+    return (<AdjutorTable
       tableName={props.tableName}
-      rows={variants as []}
+      rows={Array.from(variantResults).reverse() as []}
       columns={columns}
       hiddenColumns={hiddenColumns}
       onCellEdit={setRowId}
       loading={isLoading || isFetching}
-    />
-  );
+    />)
+  
 };

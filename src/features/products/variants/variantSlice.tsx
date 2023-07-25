@@ -9,7 +9,7 @@ export interface Variant {
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getVariants: builder.query<Variant[], void>({
-      query: () => "variants",
+      query: () => "item-variants",
       providesTags: (result) =>
         result
           ? [
@@ -19,13 +19,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
           : [{ type: "Variant", id: "LIST" }],
     }),
     getVariant: builder.query<Variant, number>({
-      query: (id) => `variants/${id}`,
+      query: (id) => `item-variants/${id}`,
       providesTags: (result, error, id) => [{ type: "Variant", id }],
     }),
     addVariant: builder.mutation<Variant, Partial<Variant>>({
       query(body) {
         return {
-          url: "variants",
+          url: "item-variants",
           method: "POST",
           body,
         };
@@ -36,7 +36,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       query(data) {
         const { id, ...put } = data;
         return {
-          url: `variants/${id}`,
+          url: `item-variants/${id}`,
           method: "PUT",
           body: put,
         };
@@ -48,7 +48,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     deleteVariant: builder.mutation<{ success: boolean; id: number },number>({
       query(id) {
         return {
-          url: `variants/${id}`,
+          url: `item-variants/${id}`,
           method: "DELETE",
         };
       },
