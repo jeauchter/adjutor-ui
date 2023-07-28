@@ -6,7 +6,7 @@ import { AddDepartment } from "./AddDepartment";
 
 export default function Departments(props: any) {
   
-    const [addDepartment, error] = useAddDepartmentMutation()
+    const [addDepartment, {isError}] = useAddDepartmentMutation()
     return (
       <Grid container spacing={3}>
         {/* <Title>Manage Departments</Title> */}
