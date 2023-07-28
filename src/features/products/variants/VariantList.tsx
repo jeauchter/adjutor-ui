@@ -25,7 +25,6 @@ export function VariantDataTable(props:IVariantDataTableProps)  {
     isSuccess,
     isError
   } = useGetVariantsQuery();
-  let content;
   const [rowId, setRowId] = useState(null);
 
   const hiddenColumns: HiddenColumns = {

@@ -22,13 +22,12 @@ export const DepartmentDataTable: React.FC<IDepartmentDataTableProps> = (
   props
 ) => {
   const {
-    data: departments,
+    data: departments = [],
     error,
     isLoading,
     isFetching,
     isSuccess,
   } = useGetDepartmentsQuery();
-  let content;
   const [rowId, setRowId] = useState(null);
 
 
@@ -82,25 +81,16 @@ export const DepartmentDataTable: React.FC<IDepartmentDataTableProps> = (
     ],
     [rowId]
   );
-  {
-    isLoading && (content = <Title>...Loading</Title>);
-  }
-  {
-    isFetching && (content = <Title>...Fetching</Title>);
-  }
-  {
-    isSuccess &&
-      (content = (
-        <AdjutorTable
-          tableName={props.tableName}
-          rows={Array.from(departments).reverse() as []}
-          columns={columns}
-          hiddenColumns={hiddenColumns}
-          onCellEdit={setRowId}
-          loading={isLoading}
-        />
-      ));
-  }
+  
 
-  return <div>{content}</div>;
+  return (
+    <AdjutorTable
+      tableName={props.tableName}
+      rows={Array.from(departments).reverse() as []}
+      columns={columns}
+      hiddenColumns={hiddenColumns}
+      onCellEdit={setRowId}
+      loading={isLoading}
+    />
+  );
 };

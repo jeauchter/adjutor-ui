@@ -1,6 +1,6 @@
 import { CircularProgress } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import React, { FC } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { AdjutorTable } from "../../../components/AdjutorTable";
 import { DateTime } from "../../../components/Date";
 import { useGetClassesQuery } from "./classSlice";
@@ -14,11 +14,11 @@ type HiddenColumns = {
 };
 
 export const ClassList: FC<ClassListProps> = ({ tableName }) => {
-  const { data: classes, isLoading, isSuccess } = useGetClassesQuery();
+  const { data: classes = [], isLoading, isSuccess } = useGetClassesQuery();
   // const { data: departments, error, isLoading:departmentLoading, isFetching, isSuccess } = useGetDepartmentsQuery();
   const hiddenColumns: HiddenColumns = {};
-  console.log(classes);
-  const columns: GridColDef[] = [
+  const [rowId, setRowId] = useState(null);
+  const columns: GridColDef[] =  useMemo(() => [
     {
       field: "name",
       headerName: "Name",
@@ -42,19 +42,17 @@ export const ClassList: FC<ClassListProps> = ({ tableName }) => {
       editable: false,
       renderCell: (params) => <DateTime passedDate={params.value} />,
     },
-  ];
-  let content;
-  {
-    isSuccess &&
-      (content = (
-        <AdjutorTable
-          tableName={tableName}
-          rows={Array.from(classes).reverse() as []}
-          columns={columns}
-          hiddenColumns={hiddenColumns}
-          loading={isLoading}
-        />
-      ));
-  }
-  return <div>{content}</div>;
+  ],
+  [rowId]
+  );
+
+  return (
+    <AdjutorTable
+      tableName={tableName}
+      rows={Array.from(classes).reverse() as []}
+      columns={columns}
+      hiddenColumns={hiddenColumns}
+      loading={isLoading}
+    />
+  );
 };
