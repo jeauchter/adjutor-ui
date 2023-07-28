@@ -26,7 +26,7 @@ const filter = createFilterOptions<DepartmentOptionType>();
 
 export const AddClass: FC<AddClassProps> = ({ onSubmit }) => {
   const [value, setValue] = useState<DepartmentOptionType | null>(null);
-  const { data = [], isLoading } = useGetDepartmentsQuery();
+  const { data = [], isLoading, isFetching } = useGetDepartmentsQuery();
 
 
     const departmentOptions: DepartmentOptionType[] = [];
@@ -68,6 +68,7 @@ export const AddClass: FC<AddClassProps> = ({ onSubmit }) => {
 
                 <Autocomplete
                   value={values.departmentName}
+                  disabled={isLoading || isFetching}
                   onChange={(event, newValue) => {
                     if (typeof newValue === "string") {
                       setValue({

@@ -31,7 +31,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                 }
             }),
             invalidatesTags: [
-                {type: 'Class', id: "LIST"}
+                {type: 'Class', id: "LIST"},
+                { type: "Department", id: "LIST" }
             ]
         })
         ,
