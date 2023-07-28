@@ -82,6 +82,26 @@ const productRows = [
     "Variants",
     "/products/variant"
   ),
+  createData(
+    3,
+    "Types",
+    "/products/product-type"
+  ),
+  createData(
+    4,
+    "Tags",
+    "/products/tag"
+  ),
+  createData(
+    5,
+    "Audiences",
+    "/products/audience"
+  ),
+  createData(
+    6,
+    "Vendors",
+    "/products/vendor"
+  ),
 ];
 
 
