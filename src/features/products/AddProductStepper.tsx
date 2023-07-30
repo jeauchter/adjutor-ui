@@ -7,14 +7,13 @@ import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
 import Title from "../../components/Title";
 import { Paper } from "@mui/material";
 import { useState } from "react";
-import Classes from "./classes/Classes";
 import { useGetClassesQuery } from "./classes/classSlice";
 
 const steps = ["Basics", "Attributes", "Define Variants"];
 
 const validationSchema = yup.object({
   name: yup.string().required("Product Name is Required"),
-  class: yup.string().required("Product Must have a class"),
+  ACclass: yup.string().required("Product Must have a class"),
 });
 
 const validationAttibuteSchema = yup.object({
@@ -36,8 +35,7 @@ export default function AddProductStepper() {
   //   (isLoading || isFetching) && setDisabledInput(true);
   // }
 
-  const [classValue, setClassValue] = React.useState<string | undefined>(undefined);
-  const [classInputValue, setClassInputValue] = React.useState("");
+
 
   return (
     <div>
@@ -62,17 +60,11 @@ export default function AddProductStepper() {
             <AdjutorTextField
               name="name"
               label="Name"
-              options={[]}
-              disabled={disabledInput}
             />
             <AdjutorAutoCompleteField
               name="class"
               label="Class"
-              value={classValue}
-              setValue={setClassValue}
-              inputValue={classInputValue}
               options={options}
-              setInputValue={setClassInputValue}
               disabled={disabledInput}
             />
           </FormStep>
@@ -84,8 +76,6 @@ export default function AddProductStepper() {
             <AdjutorTextField
               name="attributes"
               label="Attributes"
-              options={[]}
-              disabled={disabledInput}
             />
           </FormStep>
         </MultiStepForm>

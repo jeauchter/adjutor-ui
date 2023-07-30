@@ -5,12 +5,6 @@ import React from "react";
 export interface Props extends FieldConfig {
   label: string;
   children?: React.ReactElement;
-  options?: any;
-  disabled:boolean
-  value?: string 
-  setValue?: any
-  inputValue?: string
-  setInputValue?: any
 }
 
 const AdjutorTextField = ({ label, ...props }: Props) => {
@@ -28,30 +22,38 @@ const AdjutorTextField = ({ label, ...props }: Props) => {
   );
 };
 
+export interface AutoCompleteProps extends FieldConfig {
+  label: string;
+  children?: React.ReactElement;
+  options: any;
+  disabled:boolean
+}
+
 export const AdjutorAutoCompleteField = ({
   label,
-  setValue,
-  setInputValue,
+  options,
   ...props
-}: Props) => {
+}: AutoCompleteProps) => {
   const [field, meta] = useField({ ...props });
+  const [value, setValue] = React.useState<string | null>(options[0]);
+  const [inputValue, setInputValue] = React.useState("");
   return (
     <Autocomplete
-      value={props.value}
+      value={value}
       disabled={props.disabled}
       onChange={(event: any, newValue: string | null) => {
         setValue(newValue);
       }}
-      inputValue={props.inputValue}
+      inputValue={inputValue}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
       id="controllable-states-demo"
-      options={props.options}
+      options={options}
       sx={{ width: 300 }}
       renderInput={(params) => (
 
-        <AdjutorTextField {...params}  label={label} name={field.name}/>
+        <AdjutorTextField {...params}  label={label} name={"AC" + field.name}/>
       )}
     />
   );
