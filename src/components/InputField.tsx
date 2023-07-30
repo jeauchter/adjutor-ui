@@ -5,12 +5,14 @@ import {
 } from "formik";
 import React from "react";
 
-type Props =  {
+export interface  Props  {
   label: string,
-} & TextFieldProps
+  name:string,
+} 
 
-const InputField = ({label, ...props}:Props ) => {
-  const [field, meta] = useField(label);
+
+const InputField = ({label, ...props} :Props,  ) => {
+  const [field, meta] = useField({...props, type:"textfield"});
   return (
     <TextField
       fullWidth

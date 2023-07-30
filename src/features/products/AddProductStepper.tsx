@@ -10,12 +10,17 @@ import { ButtonBase, TextField } from "@mui/material";
 import Title from "../../components/Title";
 import * as yup from "yup";
 import InputField from "../../components/InputField";
+import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
 
 const steps = ["Basics", "Attributes", "Define Variants"];
 
 const validationSchema = yup.object({
   name: yup.string().required("Product Name is Required"),
   class: yup.string().required("Product Must have a class"),
+});
+
+const validationAttibuteSchema = yup.object({
+  attributes: yup.string().required("Product Name is Required"),
 });
 
 export default function AddProductStepper() {
@@ -34,25 +39,39 @@ export default function AddProductStepper() {
   };
 
   return (
-    <Formik
-      initialValues={{
-        name: "",
-        class: "",
-      }}
-      onSubmit={(values) => {
-        alert(JSON.stringify(values, null, 2));
-      }}
-      validationSchema={validationSchema}
-    >
-      {(formik) => (
-        <form onSubmit={formik.handleSubmit}>
-          <Title>Add Product</Title>
-          <InputField name="name" label="Name"/>
-          <InputField name="class" label="Class"/>
-          
-          <Button type="submit" color="primary" variant="contained" fullWidth sx={{mt: 3}} >Add Product</Button>
-        </form>
-      )}
-    </Formik>
+    <div>
+      <Title>Add Product</Title>
+      <MultiStepForm
+        initialValues={{
+          name: "",
+          class: "",
+          attributes: "",
+        }}
+        onSubmit={(values) => {
+          alert(JSON.stringify(values, null, 2));
+        }}
+        
+      >
+        <FormStep
+          stepName="Basics"
+          onSubmit={() => {
+            console.log("Step 1 Submit");
+          }}
+          validationSchema={validationSchema}
+        >
+          <InputField name="name" label="Name" />
+          <InputField name="class" label="Class" />
+        </FormStep>
+        <FormStep
+          stepName="Attirbutes"
+          onSubmit={() => {
+            console.log("Step 2 Submit");
+          }}
+          validationSchema={validationAttibuteSchema}
+        >
+          <InputField name="attributes" label="Attributes" />
+        </FormStep>
+      </MultiStepForm>
+    </div>
   );
 }
