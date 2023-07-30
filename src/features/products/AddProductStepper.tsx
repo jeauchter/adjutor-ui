@@ -1,16 +1,8 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Formik } from "formik";
-import { ButtonBase, TextField } from "@mui/material";
-import Title from "../../components/Title";
 import * as yup from "yup";
-import InputField from "../../components/InputField";
+import AdjutorTextField from "../../components/AdjutorTextField";
 import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
+import Title from "../../components/Title";
 
 const steps = ["Basics", "Attributes", "Define Variants"];
 
@@ -24,19 +16,6 @@ const validationAttibuteSchema = yup.object({
 });
 
 export default function AddProductStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   return (
     <div>
@@ -47,7 +26,8 @@ export default function AddProductStepper() {
           class: "",
           attributes: "",
         }}
-        onSubmit={(values) => {
+        onSubmit={(values, {resetForm}) => {
+          resetForm()
           alert(JSON.stringify(values, null, 2));
         }}
         
@@ -59,8 +39,8 @@ export default function AddProductStepper() {
           }}
           validationSchema={validationSchema}
         >
-          <InputField name="name" label="Name" />
-          <InputField name="class" label="Class" />
+          <AdjutorTextField name="name" label="Name" />
+          <AdjutorTextField name="class" label="Class" />
         </FormStep>
         <FormStep
           stepName="Attirbutes"
@@ -69,7 +49,7 @@ export default function AddProductStepper() {
           }}
           validationSchema={validationAttibuteSchema}
         >
-          <InputField name="attributes" label="Attributes" />
+          <AdjutorTextField name="attributes" label="Attributes" />
         </FormStep>
       </MultiStepForm>
     </div>

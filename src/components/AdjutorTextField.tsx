@@ -1,18 +1,18 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField } from "@mui/material";
 import {
   FieldConfig,
   useField
 } from "formik";
 import React from "react";
 
-export interface  Props  {
+export interface  Props extends FieldConfig  {
   label: string,
-  name:string,
+  children?: React.ReactElement
 } 
 
 
-const InputField = ({label, ...props} :Props,  ) => {
-  const [field, meta] = useField({...props, type:"textfield"});
+const AdjutorTextField = ({label, ...props} :Props  ) => {
+  const [field, meta] = useField({...props});
   return (
     <TextField
       fullWidth
@@ -25,4 +25,4 @@ const InputField = ({label, ...props} :Props,  ) => {
   );
 };
 
-export default InputField;
+export default AdjutorTextField;

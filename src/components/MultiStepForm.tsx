@@ -1,14 +1,13 @@
+import { Step, StepLabel, Stepper } from "@mui/material";
 import {
   Form,
   Formik,
   FormikConfig,
-  FormikHandlers,
   FormikHelpers,
-  FormikValues,
+  FormikValues
 } from "formik";
 import React, { useState } from "react";
 import MultiStepFormNav from "./MultiStepFormNav";
-import { Step, StepLabel, Stepper } from "@mui/material";
 
 interface Props extends FormikConfig<FormikValues> {
   children: React.ReactNode;
@@ -42,6 +41,7 @@ const MultiStepForm = ({ children, initialValues, onSubmit }: Props) => {
       await step.props.onSubmit(values);
     }
     if (isLastStep) {
+      setStepNumber(0)
       return onSubmit(values, actions);
     } else {
       actions.setTouched({});
@@ -52,7 +52,7 @@ const MultiStepForm = ({ children, initialValues, onSubmit }: Props) => {
   return (
     <div>
       <Formik
-        initialValues={{}}
+        initialValues={snapshot}
         onSubmit={handleSubmit}
         validationSchema={step.props.validationSchema}
       >
