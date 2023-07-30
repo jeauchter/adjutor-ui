@@ -3,6 +3,7 @@ import * as yup from "yup";
 import AdjutorTextField from "../../components/AdjutorTextField";
 import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
 import Title from "../../components/Title";
+import { Paper } from "@mui/material";
 
 const steps = ["Basics", "Attributes", "Define Variants"];
 
@@ -16,42 +17,38 @@ const validationAttibuteSchema = yup.object({
 });
 
 export default function AddProductStepper() {
-
   return (
     <div>
-      <Title>Add Product</Title>
-      <MultiStepForm
-        initialValues={{
-          name: "",
-          class: "",
-          attributes: "",
-        }}
-        onSubmit={(values, {resetForm}) => {
-          resetForm()
-          alert(JSON.stringify(values, null, 2));
-        }}
-        
-      >
-        <FormStep
-          stepName="Basics"
-          onSubmit={() => {
-            console.log("Step 1 Submit");
+      <Paper sx={{ m: 5, p: 5 }}>
+        <Title>Add Product</Title>
+        <MultiStepForm
+          initialValues={{
+            name: "",
+            class: "",
+            attributes: "",
           }}
-          validationSchema={validationSchema}
-        >
-          <AdjutorTextField name="name" label="Name" />
-          <AdjutorTextField name="class" label="Class" />
-        </FormStep>
-        <FormStep
-          stepName="Attirbutes"
-          onSubmit={() => {
-            console.log("Step 2 Submit");
+          onSubmit={(values, { resetForm }) => {
+            resetForm();
+            alert(JSON.stringify(values, null, 2));
           }}
-          validationSchema={validationAttibuteSchema}
         >
-          <AdjutorTextField name="attributes" label="Attributes" />
-        </FormStep>
-      </MultiStepForm>
+          <FormStep
+            stepName="Basics"
+            onSubmit={() => console.log("Step 1 Submit")}
+            validationSchema={validationSchema}
+          >
+            <AdjutorTextField name="name" label="Name" />
+            <AdjutorTextField name="class" label="Class" />
+          </FormStep>
+          <FormStep
+            stepName="Attirbutes"
+            onSubmit={() => console.log("Step 2 Submit")}
+            validationSchema={validationAttibuteSchema}
+          >
+            <AdjutorTextField name="attributes" label="Attributes" />
+          </FormStep>
+        </MultiStepForm>
+      </Paper>
     </div>
   );
 }

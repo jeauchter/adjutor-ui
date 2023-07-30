@@ -18,11 +18,11 @@ const MultiStepFormNav = (props: Props) => {
       }}
     >
       {props.hasPrevious && (
-        <Button type="button" onClick={props.onBackClick}>
+        <Button type="button" variant="contained" color="secondary" onClick={props.onBackClick}>
           Back
         </Button>
       )}
-      <Button type="submit" color="primary">
+      <Button type="submit"  variant="contained" color="primary">
         {props.isLastStep ? "Submit" : "Next"}
       </Button>
     </div>

@@ -16,6 +16,7 @@ const AdjutorTextField = ({label, ...props} :Props  ) => {
   return (
     <TextField
       fullWidth
+      sx={{mb:1, mt:1}}
       label={label}
       {...field}
       {...props}

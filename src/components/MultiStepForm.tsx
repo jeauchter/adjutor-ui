@@ -1,4 +1,4 @@
-import { Step, StepLabel, Stepper } from "@mui/material";
+import { Box, Paper, Step, StepLabel, Stepper } from "@mui/material";
 import {
   Form,
   Formik,
@@ -37,7 +37,7 @@ const MultiStepForm = ({ children, initialValues, onSubmit }: Props) => {
     values: FormikValues,
     actions: FormikHelpers<FormikValues>
   ) => {
-    if (step.props.onSumbit) {
+    if (step.props.onSubmit) {
       await step.props.onSubmit(values);
     }
     if (isLastStep) {
@@ -57,7 +57,7 @@ const MultiStepForm = ({ children, initialValues, onSubmit }: Props) => {
         validationSchema={step.props.validationSchema}
       >
         {(formik) => (
-          <Form>
+          <form onSubmit={formik.handleSubmit}>
             <Stepper activeStep={stepNumber}>
               {steps.map(currentStep => {
                 const label = currentStep.props.stepName
@@ -66,13 +66,15 @@ const MultiStepForm = ({ children, initialValues, onSubmit }: Props) => {
                 </Step>
               })}
             </Stepper>
+            <Box sx={{m:2}}>
             {step}
+            </Box>
             <MultiStepFormNav
               isLastStep={isLastStep}
               hasPrevious={stepNumber > 0}
               onBackClick={() => previous(formik.values)}
-            />
-          </Form>
+              />
+          </form>
         )}
       </Formik>
     </div>
