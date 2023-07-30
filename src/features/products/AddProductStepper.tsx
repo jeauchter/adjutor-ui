@@ -1,9 +1,14 @@
 import * as React from "react";
 import * as yup from "yup";
-import AdjutorTextField from "../../components/AdjutorTextField";
+import AdjutorTextField, {
+  AdjutorAutoCompleteField,
+} from "../../components/AdjutorFields";
 import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
 import Title from "../../components/Title";
 import { Paper } from "@mui/material";
+import { useState } from "react";
+import Classes from "./classes/Classes";
+import { useGetClassesQuery } from "./classes/classSlice";
 
 const steps = ["Basics", "Attributes", "Define Variants"];
 
@@ -16,7 +21,24 @@ const validationAttibuteSchema = yup.object({
   attributes: yup.string().required("Product Name is Required"),
 });
 
+
+const options = ['Option 1', 'Option 2'];
+
+
 export default function AddProductStepper() {
+  const [disabledInput, setDisabledInput] = useState(false);
+  
+  const { data: classes = [], isLoading, isFetching, isSuccess } = useGetClassesQuery();
+
+  // const [options, setOptions] = useState(classes);
+
+  // {
+  //   (isLoading || isFetching) && setDisabledInput(true);
+  // }
+
+  const [classValue, setClassValue] = React.useState<string | undefined>(undefined);
+  const [classInputValue, setClassInputValue] = React.useState("");
+
   return (
     <div>
       <Paper sx={{ m: 5, p: 5 }}>
@@ -37,15 +59,34 @@ export default function AddProductStepper() {
             onSubmit={() => console.log("Step 1 Submit")}
             validationSchema={validationSchema}
           >
-            <AdjutorTextField name="name" label="Name" />
-            <AdjutorTextField name="class" label="Class" />
+            <AdjutorTextField
+              name="name"
+              label="Name"
+              options={[]}
+              disabled={disabledInput}
+            />
+            <AdjutorAutoCompleteField
+              name="class"
+              label="Class"
+              value={classValue}
+              setValue={setClassValue}
+              inputValue={classInputValue}
+              options={options}
+              setInputValue={setClassInputValue}
+              disabled={disabledInput}
+            />
           </FormStep>
           <FormStep
             stepName="Attirbutes"
             onSubmit={() => console.log("Step 2 Submit")}
             validationSchema={validationAttibuteSchema}
           >
-            <AdjutorTextField name="attributes" label="Attributes" />
+            <AdjutorTextField
+              name="attributes"
+              label="Attributes"
+              options={[]}
+              disabled={disabledInput}
+            />
           </FormStep>
         </MultiStepForm>
       </Paper>
