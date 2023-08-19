@@ -24,10 +24,18 @@ const AdjutorTextField = ({ label, ...props }: Props) => {
 
 export interface AutoCompleteProps extends FieldConfig {
   label: string;
-  options: any;
+  options: optionEntity[];
   id: string;
+  disabled: boolean;
   children?: React.ReactElement;
 }
+
+type optionEntity = {
+  id: number;
+  label: string;
+};
+
+
 
 export const AdjutorAutoCompleteField = ({
   label,
@@ -35,12 +43,17 @@ export const AdjutorAutoCompleteField = ({
   ...props
 }: AutoCompleteProps) => {
   const [field, meta, helpers] = useField({ ...props });
+  console.log(options);
   return (
     <Autocomplete
       {...field}
-      value={field.value}
-      onChange={(event: any, newValue: string | null) => {
-        helpers.setValue(newValue);
+      value={field.value?.id}
+      onChange={(event: any, newValue) => {
+        helpers.setValue(newValue.id);
+      }}
+      getOptionLabel={(option) => {
+        console.log(option.value)
+        return option.label;
       }}
       id={props.id + "ac"}
       options={options}

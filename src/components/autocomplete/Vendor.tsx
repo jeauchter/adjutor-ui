@@ -1,31 +1,32 @@
 import * as React from "react";
 import { useMemo, useState } from "react";
-import { useGetClassesQuery } from "../../features/products/classes/classSlice";
+import { useGetVendorsQuery } from "../../features/products/vendors/vendorSlice";
 
 import {AdjutorAutoCompleteField} from "../AdjutorFields";
 interface Props {}
 
-export const ClassAutocomplete: React.FunctionComponent<Props> = () => {
+export const VendorAutocomplete: React.FunctionComponent<Props> = () => {
   
   const {
-    data: classes = [],
+    data: vendors = [],
     isLoading,
     isFetching,
     isSuccess,
-  } = useGetClassesQuery();
+  } = useGetVendorsQuery();
 
   const initialOptions = [{id:undefined, label:undefined}]
-  const options =  classes.map((c) => {
+  const options =  vendors.map((c) => {
+    console.log(c);
      return {id: c.id, label: c.name}
   }) 
 
   return (
     <AdjutorAutoCompleteField
-      name="classId"
-      label="Class"
+      name="vendorId"
+      label="Vendor"
       disabled={isLoading || isFetching}
       options={initialOptions && options}
-      id="class-auto-complete-field"
+      id="vendor-auto-complete-field"
     />
   );
 };

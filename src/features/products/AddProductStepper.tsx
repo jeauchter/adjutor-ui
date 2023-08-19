@@ -9,11 +9,12 @@ import { Paper } from "@mui/material";
 import { useState } from "react";
 import { useGetClassesQuery } from "./classes/classSlice";
 import {ClassAutocomplete} from "../../components/autocomplete/Class"
+import { VendorAutocomplete } from "../../components/autocomplete/Vendor";
 const steps = ["Basics", "Attributes", "Define Variants"];
 
 const validationSchema = yup.object({
   name: yup.string().required("Product Name is Required"),
-  className: yup.string().required("Class is Required"),
+  classId: yup.string().required("Class is Required"),
 });
 
 const validationAttibuteSchema = yup.object({
@@ -34,7 +35,8 @@ export default function AddProductStepper() {
         <MultiStepForm
           initialValues={{
             name: "",
-            className: ""
+            classId: 0,
+            vendorId: 0
           }}
           onSubmit={(values) => {
             alert(JSON.stringify(values, null, 2));
@@ -61,6 +63,8 @@ export default function AddProductStepper() {
               name="attributes"
               label="Attributes"
             />
+            <VendorAutocomplete />
+            
           </FormStep>
           <FormStep
             stepName="Something"
