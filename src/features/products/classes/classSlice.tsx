@@ -1,4 +1,4 @@
-import { createEntityAdapter } from "@reduxjs/toolkit";
+import { EntityState, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../../app/apiSlice";
 import { Classes } from "../../../models/classes.model";
 
@@ -9,6 +9,15 @@ const initialState = classAdapter.getInitialState({
     name: "",
     departmentName: ""
 })
+
+export interface ClassOptions {
+    id: number
+    name: string
+}
+
+const classOptionsAdapter = createEntityAdapter<ClassOptions>({
+    sortComparer: (a, b) => a.name.localeCompare(b.name),
+  })
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -21,6 +30,12 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                 ...result.map(({id}) => ({type: "Class" as const, id}))
             ]
             :[{type: 'Class', id: "LIST"}]
+        }),
+        getClassOptions: builder.query< EntityState<ClassOptions>, void>({
+            query: () => 'classes',
+            transformResponse:(response: ClassOptions[]) => {
+                return classOptionsAdapter.addMany(classOptionsAdapter.getInitialState(), response)
+            },
         }),
         addClass: builder.mutation({
             query:initialState => ({
@@ -51,4 +66,4 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     })
 })
 
-export const {useGetClassesQuery, useAddClassMutation, useUpdateClassMutation} = extendedApiSlice
+export const {useGetClassesQuery, useGetClassOptionsQuery, useAddClassMutation, useUpdateClassMutation} = extendedApiSlice

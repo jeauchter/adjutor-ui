@@ -37,6 +37,7 @@ const MultiStepForm = ({ children, initialValues, onSubmit }: Props) => {
     values: FormikValues,
     actions: FormikHelpers<FormikValues>
   ) => {
+    console.log(values)
     if (step.props.onSubmit) {
       await step.props.onSubmit(values);
     }
@@ -57,7 +58,7 @@ const MultiStepForm = ({ children, initialValues, onSubmit }: Props) => {
         validationSchema={step.props.validationSchema}
       >
         {(formik) => (
-          <form onSubmit={formik.handleSubmit}>
+          <Form>
             <Stepper activeStep={stepNumber}>
               {steps.map(currentStep => {
                 const label = currentStep.props.stepName
@@ -74,7 +75,7 @@ const MultiStepForm = ({ children, initialValues, onSubmit }: Props) => {
               hasPrevious={stepNumber > 0}
               onBackClick={() => previous(formik.values)}
               />
-          </form>
+          </Form>
         )}
       </Formik>
     </div>

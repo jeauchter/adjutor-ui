@@ -8,12 +8,12 @@ import Title from "../../components/Title";
 import { Paper } from "@mui/material";
 import { useState } from "react";
 import { useGetClassesQuery } from "./classes/classSlice";
-
+import {ClassAutocomplete} from "../../components/autocomplete/Class"
 const steps = ["Basics", "Attributes", "Define Variants"];
 
 const validationSchema = yup.object({
   name: yup.string().required("Product Name is Required"),
-  ACclass: yup.string().required("Product Must have a class"),
+  className: yup.string().required("Class is Required"),
 });
 
 const validationAttibuteSchema = yup.object({
@@ -21,20 +21,10 @@ const validationAttibuteSchema = yup.object({
 });
 
 
-const options = ['Option 1', 'Option 2'];
+// const options = ['Option 1', 'Option 2'];
 
 
 export default function AddProductStepper() {
-  const [disabledInput, setDisabledInput] = useState(false);
-  
-  const { data: classes = [], isLoading, isFetching, isSuccess } = useGetClassesQuery();
-
-  // const [options, setOptions] = useState(classes);
-
-  // {
-  //   (isLoading || isFetching) && setDisabledInput(true);
-  // }
-
 
 
   return (
@@ -44,11 +34,9 @@ export default function AddProductStepper() {
         <MultiStepForm
           initialValues={{
             name: "",
-            class: "",
-            attributes: "",
+            className: ""
           }}
-          onSubmit={(values, { resetForm }) => {
-            resetForm();
+          onSubmit={(values) => {
             alert(JSON.stringify(values, null, 2));
           }}
         >
@@ -61,16 +49,22 @@ export default function AddProductStepper() {
               name="name"
               label="Name"
             />
-            <AdjutorAutoCompleteField
-              name="class"
-              label="Class"
-              options={options}
-              disabled={disabledInput}
-            />
+            <ClassAutocomplete />
+            
           </FormStep>
           <FormStep
             stepName="Attirbutes"
             onSubmit={() => console.log("Step 2 Submit")}
+            validationSchema={validationAttibuteSchema}
+          >
+            <AdjutorTextField
+              name="attributes"
+              label="Attributes"
+            />
+          </FormStep>
+          <FormStep
+            stepName="Something"
+            onSubmit={() => console.log("Step 3 Submit")}
             validationSchema={validationAttibuteSchema}
           >
             <AdjutorTextField

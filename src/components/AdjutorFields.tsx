@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { FieldConfig, useField } from "formik";
+import { FieldConfig, Formik, useField } from "formik";
 import React from "react";
 
 export interface Props extends FieldConfig {
@@ -24,9 +24,9 @@ const AdjutorTextField = ({ label, ...props }: Props) => {
 
 export interface AutoCompleteProps extends FieldConfig {
   label: string;
-  children?: React.ReactElement;
   options: any;
-  disabled:boolean
+  id: string;
+  children?: React.ReactElement;
 }
 
 export const AdjutorAutoCompleteField = ({
@@ -34,26 +34,26 @@ export const AdjutorAutoCompleteField = ({
   options,
   ...props
 }: AutoCompleteProps) => {
-  const [field, meta] = useField({ ...props });
-  const [value, setValue] = React.useState<string | null>(options[0]);
-  const [inputValue, setInputValue] = React.useState("");
+  const [field, meta, helpers] = useField({ ...props });
   return (
     <Autocomplete
-      value={value}
-      disabled={props.disabled}
+      {...field}
+      value={field.value}
       onChange={(event: any, newValue: string | null) => {
-        setValue(newValue);
+        helpers.setValue(newValue);
       }}
-      inputValue={inputValue}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
-      }}
-      id="controllable-states-demo"
+      id={props.id + "ac"}
       options={options}
       sx={{ width: 300 }}
       renderInput={(params) => (
-
-        <AdjutorTextField {...params}  label={label} name={"AC" + field.name}/>
+        <TextField
+          {...params}
+          label={label}
+          {...field}
+          {...props}
+          error={meta.touched && Boolean(meta.error)}
+          helperText={meta.touched && meta.error}
+        />
       )}
     />
   );
