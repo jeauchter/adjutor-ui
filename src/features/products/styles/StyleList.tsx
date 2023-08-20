@@ -45,6 +45,22 @@ export function StyleDataTable(props: IStyleDataTableProps) {
         editable: true,
       },
       {
+        field: "departmentName",
+        headerName: "Department Name",
+        flex: 1,
+        minWidth: 100,
+        editable: true,
+        valueGetter: (params) => params.row.Department.name,
+      },
+      {
+        field: "audienceName",
+        headerName: "Audience Name",
+        flex: 1,
+        minWidth: 100,
+        editable: true,
+        valueGetter: (params) => params.row.Audience.name,
+      },
+      {
         field: "createdAt",
         headerName: "Created",
         flex: 1,
