@@ -102,6 +102,11 @@ const productRows = [
     "Vendors",
     "/products/vendor"
   ),
+  createData(
+    7,
+    "Styles",
+    "/products/style"
+  ),
 ];
 
 

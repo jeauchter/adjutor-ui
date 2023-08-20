@@ -9,6 +9,7 @@ import ProductTypes from '../features/products/productTypes/ProductType'
 import Tags from '../features/products/tags/Tag'
 import Audiences from '../features/products/audiences/Audience'
 import Vendors from '../features/products/vendors/Vendor'
+import Styles from '../features/products/styles/Style'
 
 
 // The Main component renders routes
@@ -24,6 +25,7 @@ const Main = () => (
       <Route path='/products/tag' Component={Tags}/>
       <Route path='/products/audience' Component={Audiences}/>
       <Route path='/products/vendor' Component={Vendors}/>
+      <Route path='/products/style' Component={Styles}/>
     </Routes>
   </main>
 )

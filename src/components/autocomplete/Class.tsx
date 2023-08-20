@@ -1,12 +1,10 @@
 import * as React from "react";
-import { useMemo, useState } from "react";
 import { useGetClassesQuery } from "../../features/products/classes/classSlice";
 
-import {AdjutorAutoCompleteField} from "../AdjutorFields";
+import { AdjutorAutoCompleteField } from "../AdjutorFields";
 interface Props {}
 
 export const ClassAutocomplete: React.FunctionComponent<Props> = () => {
-  
   const {
     data: classes = [],
     isLoading,
@@ -14,10 +12,10 @@ export const ClassAutocomplete: React.FunctionComponent<Props> = () => {
     isSuccess,
   } = useGetClassesQuery();
 
-  const initialOptions = [{id:undefined, label:undefined}]
-  const options =  classes.map((c) => {
-     return {id: c.id, label: c.name}
-  }) 
+  const initialOptions = [{ id: undefined, label: undefined }];
+  const options = classes.map((c) => {
+    return { id: c.id, label: c.name };
+  });
 
   return (
     <AdjutorAutoCompleteField

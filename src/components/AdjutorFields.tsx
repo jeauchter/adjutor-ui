@@ -43,23 +43,26 @@ export const AdjutorAutoCompleteField = ({
   ...props
 }: AutoCompleteProps) => {
   const [field, meta, helpers] = useField({ ...props });
-  console.log(options);
   return (
     <Autocomplete
       {...field}
       value={field.value?.id}
       onChange={(event: any, newValue) => {
-        helpers.setValue(newValue.id);
+        console.log("change is ", newValue)
+        const value = newValue ? newValue.id : undefined;
+        helpers.setValue(value);
       }}
       getOptionLabel={(option) => {
-        console.log(option.value)
-        return option.label;
+        return option.label || undefined;
       }}
+      isOptionEqualToValue={(option, value) => {
+        // console.log(value);
+        return option.id === value.id}}
       id={props.id + "ac"}
       options={options}
-      sx={{ width: 300 }}
       renderInput={(params) => (
         <TextField
+          sx={{ m: 1 }}
           {...params}
           label={label}
           {...field}

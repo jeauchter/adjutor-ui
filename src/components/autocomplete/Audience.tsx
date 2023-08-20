@@ -1,29 +1,29 @@
 import * as React from "react";
-import { useGetVendorsQuery } from "../../features/products/vendors/vendorSlice";
+import { useGetAudiencesQuery } from "../../features/products/audiences/audienceSlice";
 
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
 interface Props {}
 
-export const VendorAutocomplete: React.FunctionComponent<Props> = () => {
+export const AudienceAutocomplete: React.FunctionComponent<Props> = () => {
   const {
-    data: vendors = [],
+    data: audiences = [],
     isLoading,
     isFetching,
     isSuccess,
-  } = useGetVendorsQuery();
+  } = useGetAudiencesQuery();
 
   const initialOptions = [{ id: undefined, label: undefined }];
-  const options = vendors.map((c) => {
+  const options = audiences.map((c) => {
     return { id: c.id, label: c.name };
   });
 
   return (
     <AdjutorAutoCompleteField
-      name="vendorId"
-      label="Vendor"
+      name="audienceId"
+      label="Audience"
       disabled={isLoading || isFetching}
       options={initialOptions && options}
-      id="vendor-auto-complete-field"
+      id="audience-auto-complete-field"
     />
   );
 };
