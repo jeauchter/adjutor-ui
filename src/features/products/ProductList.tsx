@@ -1,14 +1,14 @@
 import { CircularProgress } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { FC, useMemo, useState } from "react";
-import { AdjutorTable } from "../../../components/AdjutorTable";
-import { DateTime } from "../../../components/Date";
-import { useGetClassesQuery } from "./classSlice";
-import { Classes } from "../../../models/classes.model";
+import { AdjutorTable } from "../../components/AdjutorTable";
+import { DateTime } from "../../components/Date";
+import { useGetProductsQuery } from "./productSlice";
+import { Product } from "../../models/products.model";
 
-interface ClassListProps {
+interface ProductListProps {
   tableName?: string;
-  classes: Classes[];
+  products: Product[];
   isLoading: boolean
 }
 
@@ -16,7 +16,7 @@ type HiddenColumns = {
   [key: string]: boolean;
 };
 
-export const ClassList: FC<ClassListProps> = ({ tableName, classes, isLoading }) => {
+export const ProductList: FC<ProductListProps> = ({ tableName, products, isLoading }) => {
   
   // const { data: departments, error, isLoading:departmentLoading, isFetching, isSuccess } = useGetDepartmentsQuery();
   const hiddenColumns: HiddenColumns = {};
@@ -52,7 +52,7 @@ export const ClassList: FC<ClassListProps> = ({ tableName, classes, isLoading })
   return (
     <AdjutorTable
       tableName={tableName}
-      rows={Array.from(classes).reverse() as []}
+      rows={Array.from(products).reverse() as []}
       columns={columns}
       hiddenColumns={hiddenColumns}
       loading={isLoading}

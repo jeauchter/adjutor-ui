@@ -1,6 +1,4 @@
 import * as React from "react";
-import { useGetVendorsQuery } from "../../features/products/vendors/vendorSlice";
-
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
 interface Props {
   data:Option[],

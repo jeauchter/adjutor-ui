@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useGetAudiencesQuery } from "../../features/products/audiences/audienceSlice";
 
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
 interface Props {

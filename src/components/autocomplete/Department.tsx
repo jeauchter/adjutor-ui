@@ -1,6 +1,4 @@
 import * as React from "react";
-import { useGetDepartmentsQuery } from "../../features/products/departments/departementSlice";
-
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
 interface Props {
   data:Option[],

@@ -1,6 +1,4 @@
 import * as React from "react";
-import { useGetClassesQuery } from "../../features/products/classes/classSlice";
-
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
 interface Props {
   data: Option[];
