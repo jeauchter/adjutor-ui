@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useGetVendorsQuery } from "../../features/products/vendors/vendorSlice";
+import { useGetStylesQuery } from "../../features/products/styles/styleSlice";
 
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
 interface Props {
@@ -13,22 +13,22 @@ type Option = {
   name: string
 }
 
-
-export const VendorAutocomplete: React.FunctionComponent<Props> = ({data, isLoading, isFetching}) => {
-
+export const StyleAutocomplete: React.FunctionComponent<Props> = ({data, isLoading, isFetching}) => {
+ 
 
   const initialOptions = [{ id: undefined, label: undefined }];
   const options = data.map((c) => {
     return { id: c.id, label: c.name };
   });
 
+
   return (
     <AdjutorAutoCompleteField
-      name="vendorId"
-      label="Vendor"
+      name="styleId"
+      label="Style"
       disabled={isLoading || isFetching}
       options={initialOptions && options}
-      id="vendor-auto-complete-field"
+      id="style-auto-complete-field"
     />
   );
 };

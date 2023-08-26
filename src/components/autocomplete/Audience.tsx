@@ -2,18 +2,22 @@ import * as React from "react";
 import { useGetAudiencesQuery } from "../../features/products/audiences/audienceSlice";
 
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
-interface Props {}
+interface Props {
+  data:Option[],
+  isLoading: boolean,
+  isFetching: boolean
+}
 
-export const AudienceAutocomplete: React.FunctionComponent<Props> = () => {
-  const {
-    data: audiences = [],
-    isLoading,
-    isFetching,
-    isSuccess,
-  } = useGetAudiencesQuery();
+type Option = {
+  id: number,
+  name: string
+}
+
+export const AudienceAutocomplete: React.FunctionComponent<Props> = ({data, isLoading, isFetching}) => {
+
 
   const initialOptions = [{ id: undefined, label: undefined }];
-  const options = audiences.map((c) => {
+  const options = data.map((c) => {
     return { id: c.id, label: c.name };
   });
 

@@ -15,7 +15,7 @@ type HiddenColumns = {
 
 export function StyleDataTable(props: IStyleDataTableProps) {
   const {
-    data: variantResults = [],
+    data: styleResults = [],
     error,
     isLoading,
     isFetching,
@@ -91,7 +91,7 @@ export function StyleDataTable(props: IStyleDataTableProps) {
   return (
     <AdjutorTable
       tableName={props.tableName}
-      rows={Array.from(variantResults).reverse() as []}
+      rows={Array.from(styleResults).reverse() as []}
       columns={columns}
       hiddenColumns={hiddenColumns}
       onCellEdit={setRowId}

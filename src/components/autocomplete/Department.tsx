@@ -2,27 +2,31 @@ import * as React from "react";
 import { useGetDepartmentsQuery } from "../../features/products/departments/departementSlice";
 
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
-interface Props {}
+interface Props {
+  data:Option[],
+  isLoading: boolean,
+  isFetching: boolean
+}
 
-export const DepartmentAutocomplete: React.FunctionComponent<Props> = () => {
-  const {
-    data: departments = [],
-    isLoading,
-    isFetching,
-    isSuccess,
-  } = useGetDepartmentsQuery();
+type Option = {
+  id: number,
+  name: string
+}
 
-  const initialOptions = [{ id: undefined, label: undefined }];
-  const options = departments.map((c) => {
+export const DepartmentAutocomplete: React.FunctionComponent<Props> = ({data, isLoading, isFetching}) => {
+
+
+  const options = data.map((c) => {
     return { id: c.id, label: c.name };
   });
+  options.unshift({ id: 0, label: "" })
 
   return (
     <AdjutorAutoCompleteField
       name="departmentId"
       label="Department"
       disabled={isLoading || isFetching}
-      options={initialOptions && options}
+      options={options}
       id="department-auto-complete-field"
     />
   );

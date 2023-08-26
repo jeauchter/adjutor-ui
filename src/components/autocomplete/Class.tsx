@@ -2,27 +2,38 @@ import * as React from "react";
 import { useGetClassesQuery } from "../../features/products/classes/classSlice";
 
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
-interface Props {}
+interface Props {
+  data: Option[];
+  isLoading: boolean;
+  isFetching: boolean;
+  departmentId?: number;
+}
 
-export const ClassAutocomplete: React.FunctionComponent<Props> = () => {
-  const {
-    data: classes = [],
-    isLoading,
-    isFetching,
-    isSuccess,
-  } = useGetClassesQuery();
+type Option = {
+  id: number;
+  name: string;
+  DepartmentID: number;
+};
 
-  const initialOptions = [{ id: undefined, label: undefined }];
-  const options = classes.map((c) => {
-    return { id: c.id, label: c.name };
-  });
-
+export const ClassAutocomplete: React.FunctionComponent<Props> = ({
+  data,
+  isLoading,
+  isFetching,
+  departmentId,
+}) => {
+  
+  const options = departmentId ?
+  data.filter((c) => c.DepartmentID === departmentId).map((c) =>  ({ id: c.id, label: c.name })) :
+  data.map((c) => ({ id: c.id, label: c.name }))
+  options.unshift({ id: 0, label: "" })
+  console.log(options.length);
+  console.log(options);
   return (
     <AdjutorAutoCompleteField
       name="classId"
       label="Class"
       disabled={isLoading || isFetching}
-      options={initialOptions && options}
+      options={options}
       id="class-auto-complete-field"
     />
   );

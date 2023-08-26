@@ -1,10 +1,6 @@
 import { apiSlice } from "../../../app/apiSlice";
+import { Style } from "../../../models/styles.model";
 
-export interface Style {
-  id: number;
-  name: string;
-  createdAt: string;
-}
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

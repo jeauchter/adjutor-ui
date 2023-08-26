@@ -12,7 +12,7 @@ const AdjutorTextField = ({ label, ...props }: Props) => {
   return (
     <TextField
       fullWidth
-      sx={{ mb: 1, mt: 1 }}
+      sx={{ m: 1 }}
       label={label}
       {...field}
       {...props}
@@ -24,7 +24,7 @@ const AdjutorTextField = ({ label, ...props }: Props) => {
 
 export interface AutoCompleteProps extends FieldConfig {
   label: string;
-  options: optionEntity[];
+  options: optionEntity[] | undefined;
   id: string;
   disabled: boolean;
   children?: React.ReactElement;
@@ -59,7 +59,7 @@ export const AdjutorAutoCompleteField = ({
         // console.log(value);
         return option.id === value.id}}
       id={props.id + "ac"}
-      options={options}
+      options={options || []}
       renderInput={(params) => (
         <TextField
           sx={{ m: 1 }}

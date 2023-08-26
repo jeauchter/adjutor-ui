@@ -13,6 +13,8 @@ import { Formik, Form } from "formik";
 import { DepartmentAutocomplete } from "../../../components/autocomplete/Department";
 import { AudienceAutocomplete } from "../../../components/autocomplete/Audience";
 import AdjutorTextField from "../../../components/AdjutorFields";
+import { useGetDepartmentsQuery } from "../departments/departementSlice";
+import { useGetAudiencesQuery } from "../audiences/audienceSlice";
 
 interface AddStyleProps {
   onSubmit: (values: AddStyleApi) => void;
@@ -26,6 +28,19 @@ const validationSchema = yup.object({
 
 
 export const AddStyle: FC<AddStyleProps> = ({ onSubmit }) => {
+
+  const {
+    data: departments = [],
+    isLoading: areDepartmentsLoading,
+    isFetching: areDepartmentsFetching,
+  } = useGetDepartmentsQuery();
+
+  const {
+    data: audiences = [],
+    isLoading: areAudiencesLoading,
+    isFetching: areAudiencesFetching,
+  } = useGetAudiencesQuery();
+
   return (
     <Formik
       initialValues={{ name: "", departmentId: undefined, audienceId: undefined }}
@@ -51,8 +66,8 @@ export const AddStyle: FC<AddStyleProps> = ({ onSubmit }) => {
               name="name"
               label="Name"
               />
-              <DepartmentAutocomplete />
-              <AudienceAutocomplete />
+              <DepartmentAutocomplete data={departments} isLoading={areDepartmentsLoading} isFetching={areDepartmentsLoading}/>
+              <AudienceAutocomplete data={audiences} isLoading={areAudiencesLoading} isFetching={areAudiencesLoading}/>
             </CardContent>
             <CardActions>
               <Button type="submit" variant="outlined">
