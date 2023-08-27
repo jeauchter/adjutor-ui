@@ -13,7 +13,7 @@ import Badge from "@mui/material/Badge";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { SecondaryListItems, mainListItems } from "../dashboard/listItems";
+import { SecondaryListItems, MainListItems } from "./listItems";
 import Main from "./Main";
 import { Container, SvgIcon } from "@mui/material";
 import Copyright from "./Copyright";
@@ -75,7 +75,7 @@ const Drawer = styled(MuiDrawer, {
 // const defaultTheme = createTheme();
 
 export default function App() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -133,7 +133,7 @@ export default function App() {
         </Toolbar>
         <Divider />
         <List component="nav">
-          {mainListItems}
+          <MainListItems />
           <Divider sx={{ my: 1 }} />
           <SecondaryListItems />
         </List>
