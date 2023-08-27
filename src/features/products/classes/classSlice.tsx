@@ -1,6 +1,6 @@
 import { EntityState, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../../app/apiSlice";
-import { Classes } from "../../../models/classes.model";
+import { Class } from "../../../models/class.model";
 
 
 const classAdapter = createEntityAdapter()
@@ -21,7 +21,7 @@ const classOptionsAdapter = createEntityAdapter<ClassOptions>({
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getClasses: builder.query< Classes[], void>({
+        getClasses: builder.query< Class[], void>({
             query: () => 'classes',
             providesTags: (result) => 
             result

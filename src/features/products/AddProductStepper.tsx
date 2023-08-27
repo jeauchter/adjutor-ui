@@ -1,32 +1,32 @@
+import { Paper } from "@mui/material";
 import * as React from "react";
+import { useState } from "react";
 import * as yup from "yup";
-import AdjutorTextField, {
-  AdjutorAutoCompleteField,
-} from "../../components/AdjutorFields";
+import AdjutorTextField from "../../components/AdjutorFields";
 import MultiStepForm, { FormStep } from "../../components/MultiStepForm";
 import Title from "../../components/Title";
-import { Paper } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
-import { useGetClassesQuery } from "./classes/classSlice";
-import {ClassAutocomplete} from "../../components/autocomplete/Class"
-import { VendorAutocomplete } from "../../components/autocomplete/Vendor";
+import { ClassAutocomplete } from "../../components/autocomplete/Class";
+import { ProductTypeAutocomplete } from "../../components/autocomplete/ProductType";
 import { StyleAutocomplete } from "../../components/autocomplete/Style";
-import { Class } from "@mui/icons-material";
-import { useGetStyleQuery, useGetStylesQuery } from "./styles/styleSlice";
-const steps = ["Basics", "Attributes", "Define Variants"];
-import { Classes } from "../../models/classes.model";
-import { createSelector } from "@reduxjs/toolkit";
+import { VendorAutocomplete } from "../../components/autocomplete/Vendor";
+import { useGetClassesQuery } from "./classes/classSlice";
+import { useAddProductMutation } from "./productSlice";
+import { useGetProductTypesQuery } from "./productTypes/productTypeSlice";
+import { useGetStylesQuery } from "./styles/styleSlice";
 import { useGetVendorsQuery } from "./vendors/vendorSlice";
-import { useGetDepartmentsQuery } from "./departments/departementSlice";
 
 const validationSchema = yup.object({
   name: yup.string().required("Product Name is Required"),
-  classId: yup.string().required("Class is Required"),
+  styleId: yup.number().required().test("","Style  is Required",(value) => value > 0),
 });
 
-const validationAttibuteSchema = yup.object({
-  vendorId: yup.string().required("Vendor  is Required"),
-  styleId: yup.string().required("Style  is Required"),
+const validationStep2Schema = yup.object({
+  classId: yup.number().required().test("","Class is Required",(value) => value > 0),
+  vendorId: yup.number().required().test("","Vendor  is Required",(value) => value > 0),
+});
+
+const validationFinalSchema = yup.object({
+  productTypeId: yup.number().required().test("","Product Type  is Required",(value) => value > 0),
 });
 
 
@@ -54,6 +54,12 @@ export default function AddProductStepper() {
     isSuccess,
   } = useGetVendorsQuery();
 
+  const {
+    data: productTypes = [],
+    isLoading: areProductTypesLoading,
+    isFetching: areProductTypesFetching,
+  } = useGetProductTypesQuery();
+  const [addProduct, error] = useAddProductMutation()
 
   
 
@@ -66,11 +72,12 @@ export default function AddProductStepper() {
             name: "",
             classId: 0,
             vendorId: 0,
-            styleId: 0
+            styleId: 0,
+            productTypeId: 0
           }}
           onSubmit={(values, { resetForm }) => {
             alert(JSON.stringify(values, null, 2));
-            console.log(departmentId)
+            addProduct(values)
             resetForm();
           }}
         >
@@ -95,24 +102,22 @@ export default function AddProductStepper() {
             stepName="Step 2"
             onSubmit={(values:any) => {
               console.log(values);
+              alert(JSON.stringify(values, null, 2));
               console.log(departmentId)
             }}
-            validationSchema={validationAttibuteSchema}
+            validationSchema={validationStep2Schema}
           >
             <ClassAutocomplete data={classes} isLoading={areClassesLoading} isFetching={areClassesFetching} departmentId={departmentId} />
             <VendorAutocomplete data={vendors} isLoading={areVendorsLoading} isFetching={areVendorsLoading}/>
             
           </FormStep>
-          {/* <FormStep
-            stepName="Finally"
+          <FormStep
+            stepName="Final"
             onSubmit={() => console.log("Step 3 Submit")}
-            validationSchema={validationAttibuteSchema}
+            validationSchema={validationFinalSchema}
           >
-            <AdjutorTextField
-              name="attributes"
-              label="Attributes"
-            />
-          </FormStep> */}
+              <ProductTypeAutocomplete data={productTypes} isLoading={areProductTypesLoading} isFetching={areProductTypesFetching} />
+          </FormStep>
         </MultiStepForm>
       </Paper>
     </div>

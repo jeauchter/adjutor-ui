@@ -1,4 +1,4 @@
-interface Classes {
+interface Class {
     id: number,
     name: string,
     DepartmentID: number,
@@ -16,4 +16,4 @@ interface AddClassApi {
     departmentName: string;
   }
 
-export type {Classes, AddClassApi}
+export type {Class, AddClassApi}

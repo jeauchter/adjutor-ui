@@ -5,6 +5,7 @@ import { AdjutorTable } from "../../components/AdjutorTable";
 import { DateTime } from "../../components/Date";
 import { useGetProductsQuery } from "./productSlice";
 import { Product } from "../../models/products.model";
+import ProductActions from "./ProductListActions";
 
 interface ProductListProps {
   tableName?: string;
@@ -30,12 +31,36 @@ export const ProductList: FC<ProductListProps> = ({ tableName, products, isLoadi
       editable: true,
     },
     {
-      field: "departmentName",
-      headerName: "Department Name",
+      field: "vendorName",
+      headerName: "Vendor Name",
       flex: 1,
       minWidth: 100,
       editable: true,
-      valueGetter: (params) => params.row.Department.name,
+      valueGetter: (params) => params.row.Vendor.name,
+    },
+    {
+      field: "className",
+      headerName: "Class",
+      flex: 1,
+      minWidth: 100,
+      editable: true,
+      valueGetter: (params) => params.row.Class.name,
+    },
+    {
+      field: "styleName",
+      headerName: "Style",
+      flex: 1,
+      minWidth: 100,
+      editable: true,
+      valueGetter: (params) => params.row.Style.name,
+    },
+    {
+      field: "productTypeName",
+      headerName: "Type",
+      flex: 1,
+      minWidth: 100,
+      editable: true,
+      valueGetter: (params) => params.row.ProductType.name,
     },
     {
       field: "createdAt",
@@ -44,6 +69,14 @@ export const ProductList: FC<ProductListProps> = ({ tableName, products, isLoadi
       minWidth: 100,
       editable: false,
       renderCell: (params) => <DateTime passedDate={params.value} />,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      renderCell: (params) => (
+        <ProductActions {...{ params, rowId, setRowId }} />
+      ),
     },
   ],
   [rowId]

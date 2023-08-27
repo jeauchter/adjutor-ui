@@ -4,11 +4,11 @@ import React, { FC, useMemo, useState } from "react";
 import { AdjutorTable } from "../../../components/AdjutorTable";
 import { DateTime } from "../../../components/Date";
 import { useGetClassesQuery } from "./classSlice";
-import { Classes } from "../../../models/classes.model";
+import { Class } from "../../../models/class.model";
 
 interface ClassListProps {
   tableName?: string;
-  classes: Classes[];
+  classes: Class[];
   isLoading: boolean
 }
 

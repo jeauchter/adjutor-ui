@@ -11,7 +11,7 @@ type Option = {
   name: string
 }
 
-export const StyleAutocomplete: React.FunctionComponent<Props> = ({data, isLoading, isFetching}) => {
+export const ProductTypeAutocomplete: React.FunctionComponent<Props> = ({data, isLoading, isFetching}) => {
  
 
   const initialOptions = [{ id: undefined, label: undefined }];
@@ -22,11 +22,11 @@ export const StyleAutocomplete: React.FunctionComponent<Props> = ({data, isLoadi
 
   return (
     <AdjutorAutoCompleteField
-      name="styleId"
-      label="Style"
+      name="productTypeId"
+      label="ProductType"
       disabled={isLoading || isFetching}
       options={initialOptions && options}
-      id="style-auto-complete-field"
+      id="product-type-auto-complete-field"
     />
   );
 };

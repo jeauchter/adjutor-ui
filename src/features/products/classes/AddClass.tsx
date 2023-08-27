@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import React, {FC, useState} from "react";
-import { AddClassApi } from "../../../models/classes.model";
+import { AddClassApi } from "../../../models/class.model";
 import { useGetDepartmentsQuery } from "../departments/departementSlice";
 
 interface AddClassProps {

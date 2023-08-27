@@ -25,7 +25,7 @@ export const StyleAutocomplete: React.FunctionComponent<Props> = ({data, isLoadi
       name="styleId"
       label="Style"
       disabled={isLoading || isFetching}
-      options={initialOptions && options}
+      options={options}
       id="style-auto-complete-field"
     />
   );
