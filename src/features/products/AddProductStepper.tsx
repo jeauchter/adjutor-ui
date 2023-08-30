@@ -76,7 +76,6 @@ export default function AddProductStepper() {
             productTypeId: 0
           }}
           onSubmit={(values, { resetForm }) => {
-            alert(JSON.stringify(values, null, 2));
             addProduct(values)
             resetForm();
           }}
@@ -101,9 +100,6 @@ export default function AddProductStepper() {
            <FormStep
             stepName="Step 2"
             onSubmit={(values:any) => {
-              console.log(values);
-              alert(JSON.stringify(values, null, 2));
-              console.log(departmentId)
             }}
             validationSchema={validationStep2Schema}
           >
