@@ -1,9 +1,13 @@
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridRenderEditCellParams } from "@mui/x-data-grid";
 import React, { useMemo, useState } from "react";
 import { AdjutorTable } from "../../../components/AdjutorTable";
 import { DateTime } from "../../../components/Date";
 import StyleActions from "./StyleActions";
 import { useGetStylesQuery } from "./styleSlice";
+import { useGetAudiencesQuery } from "../audiences/audienceSlice";
+import { AudienceAutocomplete } from "../../../components/autocomplete/Audience";
+import { Autocomplete, TextField } from "@mui/material";
+import { Audience } from "../../../models/audience.model";
 
 interface IStyleDataTableProps {
   tableName?: string;
@@ -11,6 +15,11 @@ interface IStyleDataTableProps {
 
 type HiddenColumns = {
   [key: string]: boolean;
+};
+
+type Option = {
+  value: number;
+  label: string;
 };
 
 export function StyleDataTable(props: IStyleDataTableProps) {
@@ -22,7 +31,18 @@ export function StyleDataTable(props: IStyleDataTableProps) {
     isSuccess,
     isError,
   } = useGetStylesQuery();
+  const {
+    data: audienceData = [],
+    isLoading: areAudiencesLoading,
+    isFetching: areAudiencesFetching,
+  } = useGetAudiencesQuery();
   const [rowId, setRowId] = useState(null);
+
+  const audienceOptions: Option[] = audienceData.map((c) => {
+    return { value: c.id, label: c.name };
+  });
+
+  audienceOptions.unshift({ value: 0, label: "" })
 
   const hiddenColumns: HiddenColumns = {
     id: false,
@@ -58,7 +78,10 @@ export function StyleDataTable(props: IStyleDataTableProps) {
         flex: 1,
         minWidth: 100,
         editable: true,
-        valueGetter: (params) => params.row.Audience.name,
+        type: "singleSelect",
+        valueOptions: () => audienceOptions,
+        valueGetter: (params) => audienceOptions.find((opt) => opt.value === params.row.Audience.id)?.label,
+          
       },
       {
         field: "createdAt",
