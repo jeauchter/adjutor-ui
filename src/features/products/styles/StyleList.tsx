@@ -44,16 +44,16 @@ export function StyleDataTable(props: IStyleDataTableProps) {
 
   
   
+  
   const audienceOptions: Option[] = audienceData.map((c) => {
     return { value: c.id, label: c.name };
   });
-  audienceOptions.unshift({ value: undefined, label: undefined })
-  
   const hiddenColumns: HiddenColumns = {
     id: false,
   };
   const columns: GridColDef[] = useMemo(
     () => {
+      audienceOptions.unshift()
       return [
         {
           field: "id",
@@ -86,14 +86,13 @@ export function StyleDataTable(props: IStyleDataTableProps) {
         editable: true,
         type: "singleSelect",
         valueOptions: audienceOptions,
-        valueGetter: (params) => params.row.Audience.id ?? undefined,
         valueFormatter: ({ id, value, field }) => {
           console.log(value)
-          const option = audienceOptions.find(
+          const option =  audienceOptions.find(
               ({ value: optionValue }) => optionValue === value
           );
 
-          return option!.label;
+          return option?.label;
       },
       },
       {
