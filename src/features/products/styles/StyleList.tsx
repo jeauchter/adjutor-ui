@@ -1,4 +1,4 @@
-import { GridColDef, GridRenderEditCellParams } from "@mui/x-data-grid";
+import { GridColDef, GridRenderCellParams, GridRenderEditCellParams, GridTreeNodeWithRender } from "@mui/x-data-grid";
 import React, { useMemo, useState } from "react";
 import { AdjutorTable } from "../../../components/AdjutorTable";
 import { DateTime } from "../../../components/Date";
@@ -18,9 +18,11 @@ type HiddenColumns = {
 };
 
 type Option = {
-  value: number;
-  label: string;
+  value: number | undefined;
+  label: string | undefined;
 };
+
+
 
 export function StyleDataTable(props: IStyleDataTableProps) {
   const {
@@ -38,23 +40,27 @@ export function StyleDataTable(props: IStyleDataTableProps) {
   } = useGetAudiencesQuery();
   const [rowId, setRowId] = useState(null);
 
+  
+
+  
+  
   const audienceOptions: Option[] = audienceData.map((c) => {
     return { value: c.id, label: c.name };
   });
-
-  audienceOptions.unshift({ value: 0, label: "" })
-
+  audienceOptions.unshift({ value: undefined, label: undefined })
+  
   const hiddenColumns: HiddenColumns = {
     id: false,
   };
   const columns: GridColDef[] = useMemo(
-    () => [
-      {
-        field: "id",
-        headerName: "ID",
-        flex: 1,
-        minWidth: 100,
-        hideable: true,
+    () => {
+      return [
+        {
+          field: "id",
+          headerName: "ID",
+          flex: 1,
+          minWidth: 100,
+          hideable: true,
         editable: false,
       },
       {
@@ -73,15 +79,22 @@ export function StyleDataTable(props: IStyleDataTableProps) {
         valueGetter: (params) => params.row.Department.name,
       },
       {
-        field: "audienceName",
+        field: "audienceId",
         headerName: "Audience Name",
         flex: 1,
         minWidth: 100,
         editable: true,
         type: "singleSelect",
-        valueOptions: () => audienceOptions,
-        valueGetter: (params) => audienceOptions.find((opt) => opt.value === params.row.Audience.id)?.label,
-          
+        valueOptions: audienceOptions,
+        valueGetter: (params) => params.row.Audience.id ?? undefined,
+        valueFormatter: ({ id, value, field }) => {
+          console.log(value)
+          const option = audienceOptions.find(
+              ({ value: optionValue }) => optionValue === value
+          );
+
+          return option!.label;
+      },
       },
       {
         field: "createdAt",
@@ -107,9 +120,11 @@ export function StyleDataTable(props: IStyleDataTableProps) {
           <StyleActions {...{ params, rowId, setRowId }} />
         ),
       },
-    ],
+    ]},
     [rowId]
   );
+
+  console.log(styleResults)
 
   return (
     <AdjutorTable
