@@ -5,6 +5,8 @@ import { AdjutorTable } from "../../../components/AdjutorTable";
 import { DateTime } from "../../../components/Date";
 import { useGetClassesQuery } from "./classSlice";
 import { Class } from "../../../models/class.model";
+import ClassActions from "./ClassActions";
+import { useGetDepartmentsQuery } from "../departments/departementSlice";
 
 interface ClassListProps {
   tableName?: string;
@@ -17,11 +19,14 @@ type HiddenColumns = {
 };
 
 export const ClassList: FC<ClassListProps> = ({ tableName, classes, isLoading }) => {
-  
-  // const { data: departments, error, isLoading:departmentLoading, isFetching, isSuccess } = useGetDepartmentsQuery();
+  const {
+    data: departmentData,
+    isLoading: areDepartmentsLoading,
+    isFetching: areDepartmentsFetching,
+  } = useGetDepartmentsQuery();
   const hiddenColumns: HiddenColumns = {};
   const [rowId, setRowId] = useState(null);
-  const columns: GridColDef[] =  useMemo(() => [
+  const columns: GridColDef[] =  [
     {
       field: "name",
       headerName: "Name",
@@ -30,12 +35,15 @@ export const ClassList: FC<ClassListProps> = ({ tableName, classes, isLoading })
       editable: true,
     },
     {
-      field: "departmentName",
+      field: "DepartmentID",
       headerName: "Department Name",
       flex: 1,
       minWidth: 100,
       editable: true,
-      valueGetter: (params) => params.row.Department.name,
+      type: "singleSelect",
+      valueOptions: departmentData,
+      getOptionLabel: (value:any) => value.name,
+      getOptionValue: (value:any) => value.id,
     },
     {
       field: "createdAt",
@@ -45,9 +53,15 @@ export const ClassList: FC<ClassListProps> = ({ tableName, classes, isLoading })
       editable: false,
       renderCell: (params) => <DateTime passedDate={params.value} />,
     },
-  ],
-  [rowId]
-  );
+    {
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      renderCell: (params) => (
+        <ClassActions {...{ params, rowId, setRowId }} />
+      ),
+    },
+  ]
 
   return (
     <AdjutorTable
@@ -55,7 +69,8 @@ export const ClassList: FC<ClassListProps> = ({ tableName, classes, isLoading })
       rows={Array.from(classes).reverse() as []}
       columns={columns}
       hiddenColumns={hiddenColumns}
-      loading={isLoading}
+      onCellEdit={setRowId}
+      loading={isLoading || areDepartmentsLoading || areDepartmentsFetching}
     />
   );
 };

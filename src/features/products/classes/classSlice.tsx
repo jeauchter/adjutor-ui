@@ -62,8 +62,17 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: (result, error, arg) => [
                 {type: 'Class', id: arg.id}
             ]
-        })
+        }),
+        deleteClass: builder.mutation<{ success: boolean; id: number },number>({
+            query(id) {
+              return {
+                url: `classes/${id}`,
+                method: "DELETE",
+              };
+            },
+            invalidatesTags: (result, error, id) => [{ type: "Class", id }],
+          }),
     })
 })
 
-export const {useGetClassesQuery, useGetClassOptionsQuery, useAddClassMutation, useUpdateClassMutation} = extendedApiSlice
+export const {useGetClassesQuery, useGetClassOptionsQuery, useAddClassMutation, useUpdateClassMutation, useDeleteClassMutation} = extendedApiSlice
