@@ -1,7 +1,7 @@
 import { Title } from "@mui/icons-material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useState, useMemo } from "react";
-import { AdjutorTable } from "../../../components/AdjutorTable";
+import { AdjutorEditTable } from "../../../components/AdjutorEditTable";
 import { DateTime } from "../../../components/Date";
 import {
   useGetDepartmentsQuery,
@@ -84,7 +84,7 @@ export const DepartmentDataTable: React.FC<IDepartmentDataTableProps> = (
   
 
   return (
-    <AdjutorTable
+    <AdjutorEditTable
       tableName={props.tableName}
       rows={Array.from(departments).reverse() as []}
       columns={columns}

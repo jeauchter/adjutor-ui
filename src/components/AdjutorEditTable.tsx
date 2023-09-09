@@ -150,7 +150,7 @@ type TableProps = {
   loading: boolean;
 };
 
-export const AdjutorTable: React.FC<TableProps> = ({
+export const AdjutorEditTable: React.FC<TableProps> = ({
   tableName,
   rows = [],
   columns,

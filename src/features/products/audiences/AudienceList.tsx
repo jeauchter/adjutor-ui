@@ -1,7 +1,7 @@
 import { Title } from "@mui/icons-material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { useState, useMemo, useEffect } from "react";
-import { AdjutorTable } from "../../../components/AdjutorTable";
+import { AdjutorEditTable } from "../../../components/AdjutorEditTable";
 import { DateTime } from "../../../components/Date";
 import { useGetAudiencesQuery, useUpdateAudienceMutation } from "./audienceSlice";
 import AdjutorTableActions from "../../../components/AdjutorTableActions";
@@ -78,7 +78,7 @@ export function AudienceDataTable(props:IAudienceDataTableProps)  {
   );
 
  
-    return (<AdjutorTable
+    return (<AdjutorEditTable
       tableName={props.tableName}
       rows={Array.from(productTypeResults).reverse() as []}
       columns={columns}

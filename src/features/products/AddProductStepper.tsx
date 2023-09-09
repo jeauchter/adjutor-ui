@@ -14,6 +14,7 @@ import { useAddProductMutation } from "./productSlice";
 import { useGetProductTypesQuery } from "./productTypes/productTypeSlice";
 import { useGetStylesQuery } from "./styles/styleSlice";
 import { useGetVendorsQuery } from "./vendors/vendorSlice";
+import { VariantDataTable } from "./variants/VariantList";
 
 const validationSchema = yup.object({
   name: yup.string().required("Product Name is Required"),
@@ -76,7 +77,8 @@ export default function AddProductStepper() {
             productTypeId: 0
           }}
           onSubmit={(values, { resetForm }) => {
-            addProduct(values)
+            alert(JSON.stringify(values,null,2 ))
+            // addProduct(values)
             resetForm();
           }}
         >
@@ -113,6 +115,7 @@ export default function AddProductStepper() {
             validationSchema={validationFinalSchema}
           >
               <ProductTypeAutocomplete data={productTypes} isLoading={areProductTypesLoading} isFetching={areProductTypesFetching} />
+              <VariantDataTable tableName="Choose Variants" />
           </FormStep>
         </MultiStepForm>
       </Paper>

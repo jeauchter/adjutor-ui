@@ -1,7 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { FC, useMemo, useState } from "react";
-import { AdjutorTable } from "../../../components/AdjutorTable";
+import { AdjutorEditTable } from "../../../components/AdjutorEditTable";
 import { DateTime } from "../../../components/Date";
 import { useGetClassesQuery } from "./classSlice";
 import { Class } from "../../../models/class.model";
@@ -64,7 +64,7 @@ export const ClassList: FC<ClassListProps> = ({ tableName, classes, isLoading })
   ]
 
   return (
-    <AdjutorTable
+    <AdjutorEditTable
       tableName={tableName}
       rows={Array.from(classes).reverse() as []}
       columns={columns}

@@ -1,6 +1,6 @@
 import { GridColDef, GridRenderCellParams, GridRenderEditCellParams, GridTreeNodeWithRender } from "@mui/x-data-grid";
 import React, { useMemo, useState } from "react";
-import { AdjutorTable } from "../../../components/AdjutorTable";
+import { AdjutorEditTable } from "../../../components/AdjutorEditTable";
 import { DateTime } from "../../../components/Date";
 import StyleActions from "./StyleActions";
 import { useGetStylesQuery } from "./styleSlice";
@@ -115,7 +115,7 @@ export function StyleDataTable(props: IStyleDataTableProps) {
   
 
   return (
-    <AdjutorTable
+    <AdjutorEditTable
       tableName={props.tableName}
       rows={Array.from(styleResults).reverse() as []}
       columns={columns}

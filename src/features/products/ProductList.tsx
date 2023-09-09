@@ -1,7 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import React, { FC, useMemo, useState } from "react";
-import { AdjutorTable } from "../../components/AdjutorTable";
+import { AdjutorEditTable } from "../../components/AdjutorEditTable";
 import { DateTime } from "../../components/Date";
 import { useGetProductsQuery } from "./productSlice";
 import { Product } from "../../models/products.model";
@@ -19,7 +19,6 @@ type HiddenColumns = {
 
 export const ProductList: FC<ProductListProps> = ({ tableName, products, isLoading }) => {
   
-  // const { data: departments, error, isLoading:departmentLoading, isFetching, isSuccess } = useGetDepartmentsQuery();
   const hiddenColumns: HiddenColumns = {};
   const [rowId, setRowId] = useState(null);
   const columns: GridColDef[] =  useMemo(() => [
@@ -70,20 +69,12 @@ export const ProductList: FC<ProductListProps> = ({ tableName, products, isLoadi
       editable: false,
       renderCell: (params) => <DateTime passedDate={params.value} />,
     },
-    {
-      field: "actions",
-      headerName: "Actions",
-      type: "actions",
-      renderCell: (params) => (
-        <ProductActions {...{ params, rowId, setRowId }} />
-      ),
-    },
   ],
   [rowId]
   );
 
   return (
-    <AdjutorTable
+    <AdjutorEditTable
       tableName={tableName}
       rows={Array.from(products).reverse() as []}
       columns={columns}
