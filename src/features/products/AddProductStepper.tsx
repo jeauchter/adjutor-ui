@@ -15,6 +15,8 @@ import { useGetProductTypesQuery } from "./productTypes/productTypeSlice";
 import { useGetStylesQuery } from "./styles/styleSlice";
 import { useGetVendorsQuery } from "./vendors/vendorSlice";
 import { VariantDataTable } from "./variants/VariantList";
+import { VariantDataTableSelect } from "./ItemVariantList";
+import { Formik } from "formik";
 
 const validationSchema = yup.object({
   name: yup.string().required("Product Name is Required"),
@@ -36,6 +38,7 @@ const validationFinalSchema = yup.object({
 export default function AddProductStepper() {
   
   const [departmentId, setDepartmentId] = useState<number | undefined>(undefined)
+  const [variants, setVariants] = useState<Array<string>>([]);
   const {
     data: styles = [],
     isLoading: isStylesLoading,
@@ -62,21 +65,26 @@ export default function AddProductStepper() {
   } = useGetProductTypesQuery();
   const [addProduct, error] = useAddProductMutation()
 
-  
+  function handleVariantSelection(ids:[]) {
+    setVariants(ids);
+  }
 
   return (
     <div>
       <Paper sx={{ m: 5, p: 5 }}>
         <Title>Add Product</Title>
         <MultiStepForm
+        enableReinitialize={true}
           initialValues={{
             name: "",
             classId: 0,
             vendorId: 0,
             styleId: 0,
-            productTypeId: 0
+            productTypeId: 0,
+            variants: variants
           }}
           onSubmit={(values, { resetForm }) => {
+            
             alert(JSON.stringify(values,null,2 ))
             // addProduct(values)
             resetForm();
@@ -98,6 +106,7 @@ export default function AddProductStepper() {
             />
             <StyleAutocomplete data={styles} isLoading={isStylesLoading} isFetching={isStylesFetching} />
             
+            
           </FormStep>
            <FormStep
             stepName="Step 2"
@@ -106,16 +115,19 @@ export default function AddProductStepper() {
             validationSchema={validationStep2Schema}
           >
             <ClassAutocomplete data={classes} isLoading={areClassesLoading} isFetching={areClassesFetching} departmentId={departmentId} />
-            <VendorAutocomplete data={vendors} isLoading={areVendorsLoading} isFetching={areVendorsLoading}/>
+            <VendorAutocomplete data={vendors} isLoading={areVendorsLoading} isFetching={areVendorsFetching}/>
             
           </FormStep>
           <FormStep
             stepName="Final"
-            onSubmit={() => console.log("Step 3 Submit")}
+            onSubmit={(values:any) => {
+              values.variants = variants
+              console.log("Step 3 Submit")}
+            }
             validationSchema={validationFinalSchema}
           >
               <ProductTypeAutocomplete data={productTypes} isLoading={areProductTypesLoading} isFetching={areProductTypesFetching} />
-              <VariantDataTable tableName="Choose Variants" />
+              <VariantDataTableSelect tableName="Choose Variants" handleSelection={handleVariantSelection}  />
           </FormStep>
         </MultiStepForm>
       </Paper>

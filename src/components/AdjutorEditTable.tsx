@@ -1,38 +1,18 @@
+import { alpha, styled } from "@mui/material/styles";
 import {
-  GridRowsProp,
-  GridColDef,
   DataGrid,
-  gridClasses,
-  GridActionsCellItem,
-  GridEventListener,
-  GridRowEditStopReasons,
-  GridRowId,
-  GridRowModel,
-  GridRowModes,
-  GridRowModesModel,
-  GridToolbarContainer,
+  GridColDef,
+  GridRowsProp,
+  gridClasses
 } from "@mui/x-data-grid";
-import {
-  randomCreatedDate,
-  randomTraderName,
-  randomId,
-  randomArrayItem,
-} from "@mui/x-data-grid-generator";
-import React, { useState } from "react";
+import React from "react";
 import Title from "./Title";
-import { styled, alpha } from "@mui/material/styles";
 
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import SaveIcon from "@mui/icons-material/Save";
-import CancelIcon from "@mui/icons-material/Close";
-import { Box, Button, LinearProgress } from "@mui/material";
-import { PanoramaSharp } from "@mui/icons-material";
+import { Box, LinearProgress } from "@mui/material";
 
 const ODD_OPACITY = 0.2;
 
-const StyledGridOverlay = styled('div')(({ theme }) => ({
+export const StyledGridOverlay = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -56,7 +36,7 @@ const StyledGridOverlay = styled('div')(({ theme }) => ({
   },
 }));
 
-function CustomNoRowsOverlay() {
+export function CustomNoRowsOverlay() {
   return (
     <StyledGridOverlay>
       <svg
@@ -103,7 +83,7 @@ function CustomNoRowsOverlay() {
   );
 }
 
-const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
+export const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
   [`& .${gridClasses.row}.even`]: {
     backgroundColor: theme.palette.grey[200],
     "&:hover, &.Mui-hovered": {
@@ -186,6 +166,7 @@ export const AdjutorEditTable: React.FC<TableProps> = ({
         getRowClassName={(params) =>
           params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
         }
+        checkboxSelection
         pageSizeOptions={[numPerPage]}
         initialState={{
           pagination: { paginationModel: { pageSize: numPerPage } },
