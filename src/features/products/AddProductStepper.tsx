@@ -85,8 +85,8 @@ export default function AddProductStepper() {
           }}
           onSubmit={(values, { resetForm }) => {
             
-            alert(JSON.stringify(values,null,2 ))
-            // addProduct(values)
+            console.log(JSON.stringify(values,null,2 ))
+            addProduct(values)
             resetForm();
           }}
         >
