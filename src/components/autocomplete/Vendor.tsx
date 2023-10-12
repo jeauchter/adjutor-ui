@@ -1,20 +1,23 @@
 import * as React from "react";
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
 interface Props {
-  data:Option[],
-  isLoading: boolean,
-  isFetching: boolean
+  data: Option[];
+  isLoading: boolean;
+  isFetching: boolean;
+  changeHandler?: any;
 }
 
 type Option = {
-  id: number,
-  name: string
-}
+  id: number;
+  name: string;
+};
 
-
-export const VendorAutocomplete: React.FunctionComponent<Props> = ({data, isLoading, isFetching}) => {
-
-
+export const VendorAutocomplete: React.FunctionComponent<Props> = ({
+  data,
+  isLoading,
+  isFetching,
+  changeHandler,
+}) => {
   const initialOptions = [{ id: undefined, label: undefined }];
   const options = data.map((c) => {
     return { id: c.id, label: c.name };
@@ -27,6 +30,7 @@ export const VendorAutocomplete: React.FunctionComponent<Props> = ({data, isLoad
       disabled={isLoading || isFetching}
       options={initialOptions && options}
       id="vendor-auto-complete-field"
+      changeHandler={changeHandler}
     />
   );
 };

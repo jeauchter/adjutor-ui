@@ -1,9 +1,10 @@
 import * as React from "react";
 import { AdjutorAutoCompleteField } from "../AdjutorFields";
 interface Props {
-  data:Option[],
-  isLoading: boolean,
+  data:Option[]
+  isLoading: boolean
   isFetching: boolean
+  changeHandler?: any
 }
 
 type Option = {
@@ -11,7 +12,7 @@ type Option = {
   name: string
 }
 
-export const StyleAutocomplete: React.FunctionComponent<Props> = ({data, isLoading, isFetching}) => {
+export const StyleAutocomplete: React.FunctionComponent<Props> = ({data, isLoading, isFetching, changeHandler}) => {
  
 
   const initialOptions = [{ id: undefined, label: undefined }];
@@ -27,6 +28,7 @@ export const StyleAutocomplete: React.FunctionComponent<Props> = ({data, isLoadi
       disabled={isLoading || isFetching}
       options={options}
       id="style-auto-complete-field"
+      changeHandler={changeHandler}
     />
   );
 };

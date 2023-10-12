@@ -5,6 +5,7 @@ interface Props {
   isLoading: boolean;
   isFetching: boolean;
   departmentId?: number;
+  changeHandler?: any;
 }
 
 type Option = {
@@ -18,6 +19,7 @@ export const ClassAutocomplete: React.FunctionComponent<Props> = ({
   isLoading,
   isFetching,
   departmentId,
+  changeHandler
 }) => {
   
   const options = departmentId ?
@@ -33,6 +35,7 @@ export const ClassAutocomplete: React.FunctionComponent<Props> = ({
       disabled={isLoading || isFetching}
       options={options}
       id="class-auto-complete-field"
+      changeHandler={changeHandler}
     />
   );
 };

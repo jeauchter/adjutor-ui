@@ -27,6 +27,7 @@ export interface AutoCompleteProps extends FieldConfig {
   options: optionEntity[] | undefined;
   id: string;
   disabled: boolean;
+  changeHandler?: any;
   children?: React.ReactElement;
 }
 
@@ -40,6 +41,7 @@ type optionEntity = {
 export const AdjutorAutoCompleteField = ({
   label,
   options,
+  changeHandler,
   ...props
 }: AutoCompleteProps) => {
   const [field, meta, helpers] = useField({ ...props });
@@ -51,6 +53,10 @@ export const AdjutorAutoCompleteField = ({
         console.log("change is ", newValue)
         const value = newValue ? newValue.id : undefined;
         helpers.setValue(value);
+        const name = newValue ? newValue.label : undefined;
+        if(changeHandler){
+          changeHandler(name);
+        }
       }}
       getOptionLabel={(option) => {
         return option.label || undefined;
