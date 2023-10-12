@@ -4,7 +4,7 @@ import { AdjutorEditTable, CustomNoRowsOverlay, StripedDataGrid } from "../../co
 import { DateTime } from "../../components/Date";
 import { useGetVariantsQuery } from "./variants/variantSlice"
 import { Box, LinearProgress, TableProps, alpha, gridClasses, styled } from "@mui/material";
-import { Title } from "@mui/icons-material";
+import Title  from "../../components/Title";
 
 interface IVariantDataTableProps {
   tableName?: string;
